@@ -23,7 +23,7 @@ import java.util.Map;
 @Service
 @Qualifier("fajloviKategorija")
 public class KategorijaServiceimpl implements KattegorijService {
-    @Value("C:\\Users\\miki\\Documents\\GitHub\\SR3-2021-WEB-2022\\sr3-2021-web-2022\\sr3-2021-web-2022\\ssf\\src\\main\\resources\\kategorije.txt")
+    @Value("C:\\Users\\janko\\Documents\\GitHub\\sr3-2021-web-2022\\ssf\\src\\main\\resources\\kategorije.txt")
     private String pathToFile;
     private Map<Long, Kategorija_Leka> readFromFile()
     {

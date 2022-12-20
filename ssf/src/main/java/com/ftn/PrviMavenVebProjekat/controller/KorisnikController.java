@@ -275,7 +275,7 @@ public class KorisnikController{
 					"				<td>"+ k.getLastName() +"</td>\r\n" +
 					"				<td>"+ k.getEmail() +"</td>\r\n" +
 					"				<td>" +
-									"	<form method=\"post\" action=\"korisnici/obrisi\">\r\n" +
+									"	<form method=\"post\" action=\"Users/obrisi\">\r\n" +
 									"		<input type=\"hidden\" name=\"id\" value=\""+k.getId()+"\">\r\n" +
 									"		<input type=\"submit\" value=\"Obrisi\">\r\n" + 
 									"	</form>\r\n" +

@@ -23,7 +23,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/miki/Desktop/sr3-2021-web-2022/ssf/.project",
+    "last_opened_file_path": "C:/Users/janko/Documents/GitHub/sr3-2021-web-2022/ssf/.project",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
@@ -47,10 +47,22 @@
       <option name="presentableId" value="Default" />
       <updated>1670676635773</updated>
       <workItem from="1670676637052" duration="150000" />
+      <workItem from="1670769108318" duration="28000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
