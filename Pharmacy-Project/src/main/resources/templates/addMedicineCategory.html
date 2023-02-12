@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<base th:href="@{/}">
+	<title>Add new category</title>
+	<link rel="stylesheet" type="text/css" href="css/FormStyles.css"/>    
+	<link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/>  
+</head>
+<body>
+	<ul>
+		<li><a href="users" th:text="#{general.text.users}"></a></li>
+	 	<li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
+	 	<li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+	</ul>
+	<form method="post" action="MedicineCategories/add">
+		<table>    
+ 			<caption th:text="#{general.text.Cmedcat}" ></caption>
+ 			<tr><th th:text="#{Addmedicine.text.name}"></th><td><input type="text" value="" name="medicineName" required/></td></tr>
+ 			<tr><th th:text="#{Addmedicine.text.purpose}"></th><td><input type="text" value="" name="medicinePurpose" required/></td></tr>
+ 			<tr><th th:text="#{Addmedicine.text.desc}"></th><td><input type="text" value="" name="medicineDescription" required/></td></tr>
+ 			     
+ 			<tr><th></th><td><input type="submit" th:value="#{Addmedicine.text.button}"/></td>
+ 		</table>
+	</form>
+</body>
+</html>

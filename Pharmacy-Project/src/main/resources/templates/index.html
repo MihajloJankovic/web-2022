@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<base th:href="@{/}">
+	<title>Add new category</title>
+	<link rel="stylesheet" type="text/css" href="css/FormStyles.css"/>
+	<link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/>
+</head>
+<body>
+<ul>
+	<li><a href="users" th:text="#{general.text.users}"></a></li>
+	<li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
+	<li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+</ul>
+<h1 th:text="#{general.text.welcome}"></h1>
+
+<a href="/PharmacyProject/LogInLogOut/register" th:text="#{general.text.signup}"></a><br/>
+<a href="/PharmacyProject/LogInLogOut/login" th:text="#{general.text.login}"></a><br/>
+<a href="/PharmacyProject/Medicine/changeLang?jezik=en" th:text="#{general.text.chlengen}"></a><br/>
+<a href="/PharmacyProject/Medicine/changeLang?jezik=sr" th:text="#{general.text.chlengrs}"></a><br/>
+</body>
+</html>

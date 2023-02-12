@@ -1,0 +1,9 @@
+2|Nidzo|Da se smiri pacijent|Koviljo
+3|Smrtonosnost|Ne znam|Paranoja
+4|Smoki|Da grickam|Kad je dosadno
+5|primer|ti|dajem
+6|primer|ti ne|dajem
+7|milica|milicino|milicina
+8|Nikola|AAA|DDD
+9|Nikola|AAA|DDD
+10|Nikola|AAA|DDD

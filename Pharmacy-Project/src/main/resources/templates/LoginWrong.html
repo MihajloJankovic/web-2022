@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <base th:href="@{/}">
+  <meta charset="UTF-8">
+  <title>Medicine category</title>
+  <link rel="stylesheet" type="text/css" href="css/FormStyles.css"/>
+  <link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/>
+</head>
+<body>
+<!--<ul>-->
+<!--  <li><a href="users">All users</a></li>-->
+<!--  <li><a href="MedicineCategories">All medicine categories</a></li>-->
+<!--  <li><a href="medicines">All medicines</a></li>-->
+<!--</ul>-->
+<div class="alert" th:text="#{general.text.allert}">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+
+</div>
+<form method="post" action="LogInLogOut/login">
+  <table class="forma">
+    <caption th:text="#{login.text.cap}"></caption>
+    <tr><th th:text="#{login.text.username}"></th><td><input type="text"  name="username"/></td></tr>
+    <tr><th th:text="#{login.text.pass}"></th><td><input type="text"  name="password"/></td></tr>
+    <tr><th></th><td><input type="submit" th:value="#{login.text.cap}" /></td></tr>
+  </table>
+</form>
+</body>
+</html>

@@ -1,0 +1,6 @@
+2|pera123|576575|petar.sovljanski20@gmail.com|Nikola|Šerkov|2022-02-12|Tose i Djose;123;Novi Sad;Kosovo|0654679165|ADMINISTRATOR|2023-01-14T21:40:06
+3|pera123|pera321|petar.sovljanski20@gmail.com|Nikola|Šerkov|2022-02-12|Tose i Djose;123;Novi Sad;Kosovo|0654679165|ADMINISTRATOR|2023-01-14T21:40:06
+4|pera123|456454|sovljanski.pera123@gmail.com|Nikola|Šerkov|2022-12-08|Tose i Djose;123;Novi Sad;Serbia|0657388165|PHARMACIST|2023-01-14T21:40:06
+5|pera123|pera321|animesrbijaas@gmail.com|Petar|Gaga|2022-12-01|GFdggdf;14;hffghfg;hfdhgfh|3463546456|ADMINISTRATOR|2023-01-14T21:40:06
+6|pera123|2345345453|petar.sovljanski20@gmail.com|Petar|Šovljanski|2022-05-12|Natoseviceva;4;Novi Sad;Serbia|050342523|CUSTOMER|2023-01-14T21:40:06
+7|pera123|123456p|petar.sovljanski20@gmail.com|Petar|Šovljanski|2023-01-01|Tose i Djose;8787;Novi Sad;Kosovo|0654679165|CUSTOMER|2023-01-14T21:40:06

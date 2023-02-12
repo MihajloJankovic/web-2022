@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<base th:href="@{/}">
+		<link rel="stylesheet"  type="text/css"  href="css/TableStyles.css"/>     
+	 	<link rel="stylesheet"  type="text/css" href="css/HorizontalMenuStyles.css"/> 
+		<title>Medicine categories</title>
+	</head>
+	<body>
+		<ul>
+			<li><a href="users" th:text="#{general.text.users}"></a></li>
+			<li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+	 	</ul>
+	 	<table>
+	 		<caption th:text="#{Medicine.text.cap}">Medicine categories</caption>
+	 		<tr>
+	 			<th th:text="#{Medicine.text.id}"></th>
+	 			<th th:text="#{Medicine.text.name}"></th>
+	 			<th th:text="#{Medicine.text.purpose}"></th>
+	 			<th th:text="#{Medicine.text.Description}"></th>
+	 			<th></th>
+	 		</tr>
+	 		<tr th:each="itMedicineCategory, status: ${medicineCategories}">
+	 			<td th:text="${(status.index + 1)+'.'}"></td>
+	 			<td th:text="${itMedicineCategory.medicineName}"></td>
+	 			<td th:text="${itMedicineCategory.medicinePurpose}"></td>
+	 			<td th:text="${itMedicineCategory.medicineDescription}"></td>
+	 			<td>
+	 				<a th:href="|MedicineCategories/details?id=${itMedicineCategory.medicineID}|" th:text="#{general.details}"></a>
+	 			</td>
+	 	</table>
+	 	<ul>
+	 		<li><a href = "MedicineCategories/add" th:text="#{Addmedicine.text.button}"></a></li>
+	 	</ul>
+	</body>
+</html>

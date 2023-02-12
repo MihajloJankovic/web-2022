@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <base th:href="@{/}">
+  <link rel="stylesheet"  type="text/css"  href="css/TableStyles.css"/>
+  <link rel="stylesheet"  type="text/css" href="css/HorizontalMenuStyles.css"/>
+  <title>Medicine categories</title>
+</head>
+<body>
+<ul>
+  <li><a href="users" th:text="#{general.text.users}"></a></li>
+  <li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
+</ul>
+<table>
+  <caption th:text="#{general.text.meds}"></caption>
+  <tr>
+    <th th:text="#{Medicine.text.id}"></th>
+    <th th:text="#{Medicine.text.name}"></th>
+    <th th:text="#{Medicine.text.Description}"></th>
+    <th th:text="#{Medicine.text.Type}"></th>
+    <th th:text="#{Medicine.text.Grade}"></th>
+    <th th:text="#{Medicine.text.MedicineCategory}"></th>
+    <th th:text="#{Medicine.text.NumberofItem}"></th>
+    <th th:text="#{Medicine.text.Price}"></th>
+    <th th:text="#{Medicine.text.Manufecturer}"></th>
+
+    <th></th>
+  </tr>
+  <tr th:each="itMedicineCategory, status: ${medicineCategories}">
+    <td th:text="${(status.index + 1)+'.'}"></td>
+    <td th:text="${itMedicineCategory.getName()}"></td>
+    <td th:text="${itMedicineCategory.getDescription()}"></td>
+    <td th:text="${itMedicineCategory.getType().name()}"></td>
+    <td th:text="${itMedicineCategory.getGrade()}"></td>
+    <td th:text="${itMedicineCategory.getMedicineCategory().getMedicineName()}"></td>
+    <td th:text="${itMedicineCategory.getNumberofItems()}"></td>
+    <td th:text="${itMedicineCategory.getPrice()}"></td>
+    <td th:text="${itMedicineCategory.getManufecturer().getName()}"></td>
+
+
+    <td>
+      <form action="Medicine/details" method="get">
+        <input type="hidden" id="id" name="id" th:value="|${itMedicineCategory.getId()}|">
+        <input type="submit" th:value="#{general.details}">
+      </form>
+
+    </td>
+</table>
+<ul>
+  <li><a href = "Medicine/add" th:text="#{Addmedicine.text.button}"></a></li>
+
+</ul>
+</body>
+</html>

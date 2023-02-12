@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<base th:href="@{/}">
+	<meta charset="UTF-8">
+	<title>Medicine category</title>
+	<link rel="stylesheet" type="text/css" href="css/FormStyles.css"/>    
+	<link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/> 
+</head>
+<body>
+	<ul>
+		<li><a href="users" th:text="#{general.text.users}"></a></li>
+		<li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
+		<li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+ 	</ul>
+ 	<form method="post" action="MedicineCategories/edit">
+		<input type="hidden" name="medicineID" th:value="${medicineCategory.medicineID}"/><!-- popuni value atribut vrednošću -->
+		<table class="forma">
+			<caption>Category info</caption>
+			<tr><th th:text="#{Medicine.text.name}"></th><td><input type="text" th:value="${medicineCategory.medicineName}" name="medicineName"/></td></tr>
+			<tr><th th:text="#{Medicine.text.purpose}"></th><td><input type="text" th:value="${medicineCategory.medicinePurpose}" name="medicinePurpose"/></td></tr>
+			<tr><th th:text="#{Medicine.text.Description}"></th><td><input type="text" th:value="${medicineCategory.medicineDescription}" name="medicineDescription"/></td></tr>
+			<tr><th></th><td><input type="submit" th:value="#{general.text.save}"/></td></tr>
+		</table>
+	</form>
+	<form method="post" action="MedicineCategories/delete">
+		<input type="hidden" name="medicineID" th:value="${medicineCategory.medicineID}"/>
+		<table class="forma">
+			<tr><th></th><td><input type="submit" th:value="#{general.text.delete}"/></td></tr>
+		</table>
+	</form>
+</body>
+</html>

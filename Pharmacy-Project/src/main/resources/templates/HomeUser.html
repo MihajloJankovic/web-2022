@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <base th:href="@{/}">
+  <title>Add new category</title>
+
+
+  <link rel="stylesheet" type="text/css" href="css/TableStyles.css"/>
+</head>
+<body>
+<ul>
+  <li><a href="users" th:text="#{general.text.users}"></a></li>
+  <li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
+  <li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+</ul>
+  <form action="LogInLogOut/logout" method="get" >
+    <input type="submit"  th:value="#{general.text.logout}"/>
+    </form>
+<table>
+  <caption th:text="#{user.text.caption}"></caption>
+  <tr>
+    <th th:text="#{user.text.id}"></th>
+    <th th:text="#{user.text.username}"></th>
+    <th th:text="#{user.text.email}"></th>
+    <th th:text="#{user.text.name}"></th>
+    <th th:text="#{user.text.surname}"></th>
+    <th th:text="#{user.text.birthDate}"></th>
+    <th th:text="#{user.text.phoneNumber}"></th>
+    <th th:text="#{user.text.role}"></th>
+    <th></th>
+
+
+  </tr>
+  <tr th:each="itUser, status: ${User}">
+
+    <td th:text="${itUser.getUserID()}"></td>
+    <td th:text="${itUser.getUsername()}"></td>
+    <td th:text="${itUser.getEmail()}"></td>
+
+    <td th:text="${itUser.getName()}"></td>
+    <td th:text="${itUser.getSurname()}"></td>
+    <td th:text="${itUser.getBirthDate()}"></td>
+    <td th:text="${itUser.getPhoneNumber()}"></td>
+    <td th:text="${itUser.getRole().toString()}"></td>
+    <td>
+      <a th:href="|Users/details?id=${itUser.getUserID()}|" th:text="#{general.details}"></a>
+    </td>
+</table>
+</body>
+</html>

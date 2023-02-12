@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+  <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+  <META HTTP-EQUIV="Expires" CONTENT="0">
+  <meta charset="UTF-8" />
+  <base href="/PharmacyProject/">
+  <title>Pharmacy Web Application - Register</title>
+  <link rel="stylesheet" type="text/css" href="../static/css/FormStyles.css"/>
+  <link rel="stylesheet" type="text/css" href="../static/css/HorizontalMenuStyles.css"/>
+</head>
+<body>
+<ul>
+  <a href="/PharmacyProject/LogInLogOut/login" th:text="#{general.text.login}"></a><br/>
+</ul>
+<form action="users/register" method="post" >
+  <div class="container" >
+
+    <h1 th:text="#{register.h1}"></h1>
+    <p th:text="#{register.p}"></p>
+    <hr>
+    </br>
+    <label for="username"><b th:text="#{register.text.Username}"></b></label></br>
+    <input type="text"  name="username" id="username" required>
+    </br>
+    <label for="email"><b th:text="#{register.text.Email}"></b></label></br>
+    <input type="email"  name="email" id="email" required>
+    </br>
+    <label for="name"><b th:text="#{register.text.Name}"></b></label></br>
+    <input type="text"  name="name" id="name" required>
+    </br>
+    <label for="surname"><b th:text="#{register.text.Surname}"></b></label></br>
+    <input type="text"  name="surname" id="surname" required>
+    </br>
+    <label for="birthDate"><b th:text="#{register.text.Birthdate}"></b></label></br>
+    <input type="date"  name="birthDateStr" id="birthDate" required>
+    </br>
+    <label for="phoneNumber"><b th:text="#{register.text.Phonenumber}"></b></label></br>
+    <input type="tel"  name="phoneNumber" id="phoneNumber" required>
+    </br>
+
+    <label for="password"><b th:text="#{register.text.Password}"></b></label></br>
+    <input type="password"  name="password" id="password" required>
+    </br>
+    <hr>
+    <h2 th:text="#{register.h2}"></h2>
+    <label for="street"><b th:text="#{register.text.Street}"></b></label></br>
+    <input type="text"  name="street" id="street" required>
+    </br>
+    <label for="streetNumber"><b th:text="#{register.text.Streetnumber}"></b></label></br>
+    <input type="text"  name="streetNumber" id="streetNumber" required>
+    </br>
+    <label for="city"><b th:text="#{register.text.City}"></b></label></br>
+    <input type="city" name="city" id="city" required>
+    </br>
+    <label for="country"><b th:text="#{register.text.Country}"></b></label></br>
+    <input type="text"  name="country" id="country" required>
+    </br>
+
+    <button type="submit" class="registerbtn"  th:text="#{general.text.signup}"></button>
+  </div>
+</form>
+</body>
+</html>

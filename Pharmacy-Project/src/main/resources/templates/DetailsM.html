@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <base th:href="@{/}">
+  <meta charset="UTF-8">
+  <title>Medicine category</title>
+  <link rel="stylesheet" type="text/css" href="css/FormStyles.css"/>
+  <link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/>
+</head>
+<body>
+<ul>
+
+  <li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
+  <li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+</ul>
+<form method="post" action="Medicine/edit">
+
+  <table class="forma">
+    <caption th:text="#{general.text.medinfo}"></caption>
+    <tr><th th:text="#{details.text.name}"></th><td><input type="text" th:value="${medicineCategory.getName()}" name="medicineName"/></td></tr>
+    <tr><th th:text="#{details.text.Description}"></th><td><input type="text" th:value="${medicineCategory.getDescription()}" name="medicinePurpose"/></td></tr>
+    <tr><th th:text="#{details.text.Contraindications}"></th><td><input type="text" th:value="${medicineCategory.getContraindications()}" name="medicineDescription"/></td></tr>
+    <tr><th th:text="#{details.text.Type}"></th><td><input type="text" th:value="${medicineCategory.getType().name()}" name="medicineName"/></td></tr>
+    <tr><th th:text="#{details.text.Grade}"></th><td><input type="text" th:value="${medicineCategory.getGrade()}" name="medicinePurpose"/></td></tr>
+    <tr><th th:text="#{details.text.MedicineCategory}"></th><td><input type="text" th:value="${medicineCategory.getMedicineCategory().getMedicineName()}" name="medicineDescription"/></td></tr>
+    <tr><th th:text="#{details.text.NumberofItems}"></th><td><input type="text" th:value="${medicineCategory.getNumberofItems()}" name="medicineName"/></td></tr>
+    <tr><th th:text="#{details.text.Price}"></th><td><input type="text" th:value="${medicineCategory.getPrice()}" name="medicinePurpose"/></td></tr>
+    <tr><th th:text="#{details.text.Manufecturer}"></th><td><select >
+      <option th:each="itMan, status: ${Man}" th:text="${itMan.getName()}"></option>
+    </select></td></tr>
+    <tr><th></th><td><input type="submit" th:value="#{general.text.save}"/></td></tr>
+  </table>
+</form>
+<form method="post" action="MedicineCategories/delete">
+
+  <table class="forma">
+    <tr><th></th><td><input type="submit" th:value="#{general.text.delete}"/></td></tr>
+  </table>
+</form>
+</body>
+</html>
