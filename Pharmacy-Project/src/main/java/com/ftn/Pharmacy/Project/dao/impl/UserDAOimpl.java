@@ -93,6 +93,22 @@ public class UserDAOimpl implements UserDAO{
 
     }
 
+    public User username(String username) {
+        String sql = "select * from users where username = ?";
+
+        UserDAOimpl.UserRowCallBackHandler rowCallbackHandler = new UserDAOimpl.UserRowCallBackHandler();
+        jdbcTemplate.query(sql, rowCallbackHandler,username);
+        if( rowCallbackHandler.Users.size() == 0)
+        {
+
+            return null;
+        }
+        else {
+            return rowCallbackHandler.getUsers().get(0);
+        }
+
+    }
+
     public List<User> findAll() {
         String sql = "select * from users";
 

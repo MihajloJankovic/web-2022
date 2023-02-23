@@ -7,14 +7,17 @@
   <meta charset="UTF-8" />
   <base href="/PharmacyProject/">
   <title>Pharmacy Web Application - Register</title>
-  <link rel="stylesheet" type="text/css" href="../static/css/FormStyles.css"/>
-  <link rel="stylesheet" type="text/css" href="../static/css/HorizontalMenuStyles.css"/>
+  <link rel="stylesheet" type="text/css" href="css/FormStyles.css"/>
+  <link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/>
 </head>
 <body>
 <ul>
   <a href="/PharmacyProject/LogInLogOut/login" th:text="#{general.text.login}"></a><br/>
 </ul>
+<div class="alert" th:text="#{general.text.Username}">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 
+</div>
 <form action="users/register" method="post" >
   <div class="container" >
 

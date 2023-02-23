@@ -30,6 +30,32 @@ public class Medicine {
 
     }
 
+    public Medicine(long id, String medicineName, String description, String contraindications, Type valueOf, MedicineCategory oneMedicineCategoryByID, int numberofItems, int price, Manucfecturer man) {
+        this.id = id;
+        Name = medicineName;
+        Description = description;
+        Contraindications = contraindications;
+        this.type = valueOf;
+        this.grade = grade;
+        this.medicineCategory = oneMedicineCategoryByID;
+        NumberofItems = numberofItems;
+        this.price = price;
+        this.manufecturer = man;
+    }
+
+    public Medicine(String medicineName, String description, String contraindications, Type valueOf, MedicineCategory oneMedicineCategoryByID, int numberofItems, int price, Manucfecturer man) {
+
+        Name = medicineName;
+        Description = description;
+        Contraindications = contraindications;
+        this.type = valueOf;
+        this.grade = 0;
+        this.medicineCategory = oneMedicineCategoryByID;
+        NumberofItems = numberofItems;
+        this.price = price;
+        this.manufecturer = man;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -82,19 +108,7 @@ public class Medicine {
         this.manufecturer = manufecturer;
     }
 
-    public Medicine(String name, String description, String contraindications, Type type, MedicineCategory pp, int broj, int cena, String pro) {
-        Name = name;
-        Description = description;
-        Contraindications = contraindications;
-        this.type = type;
-        this.grade = 0;
-        this.medicineCategory = pp;
-        this.NumberofItems = broj;
-        this.price = cena;
-        this.manufecturer.Name = pro;
-        this.id = (long) (Math.random() * 100000000000000L);
 
-    }
 
 
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <base th:href="@{/}">
+  <meta charset="UTF-8">
+  <title>Medicine category</title>
+  <link rel="stylesheet" type="text/css" href="css/FormStyles.css"/>
+  <link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/>
+  <script src="js/Java.js"></script>
+</head>
+<body>
+<form method="post" action="Users/edit">
+
+  <table class="forma">
+    <caption th:text="#{user.capp}"></caption>
+    <input type="hidden" th:value="${User.getUserID()}" name="id"/>
+    <tr><th th:text="#{user.details.id}"></th><td><input type="text" disabled required th:value="${User.getUserID()}" name="id"/></td></tr>
+    <tr><th th:text="#{user.details.username}"></th><td><input type="text" required th:value="${User.getUsername()}" disabled name="username"/></td></tr>
+    <tr><th th:text="#{user.details.pass}"></th><td><input type="text" required th:value="${User.getPassword()}" name="pass"/></td></tr>
+    <tr><th th:text="#{user.details.email}"></th><td><input type="text" required th:value="${User.getEmail()}" name="email"/></td></tr>
+    <tr><th th:text="#{user.details.firstname}"></th><td><input type="text" required th:value="${User.getName()}" name="name"/></td></tr>
+    <tr><th th:text="#{user.details.surname}"></th><td><input type="text" required th:value="${User.getSurname()}" name="surname"/></td></tr>
+    <tr><th th:text="#{user.details.birthdate}"></th><td><input type="date" required th:value="${User.getBirthDate()}" name="bdate"/></td></tr>
+    <tr><th th:text="#{user.details.street}"></th><td><input type=type="text" required th:value="${User.getStreet()}" name="street"/></td></tr>
+    <tr><th th:text="#{user.details.streetNum}"></th><td><input type="number" required th:value="${User.getStreetNumber()}" name="streetnum"/></td></tr>
+    <tr><th th:text="#{user.details.City}"></th><td><input type="text" required th:value="${User.getCity()}" name="city"/></td></tr>
+    <tr><th th:text="#{user.details.Country}"></th><td><input type="text" required th:value="${User.getCountry()}" name="country"/></td></tr>
+    <tr><th th:text="#{user.details.phone}"></th><td><input type="number" required th:value="${User.getPhoneNumber()}" name="Phone"/></td></tr>
+    <tr><th th:text="#{user.details.registeredTime}"></th><td><input type="datetime-local"  disabled required th:value="${User.getRegisteredTime()}" name="regtime"/></td></tr>
+    <tr><th th:text="#{user.role}"></th><td><input type="text"  disabled required th:value="${User.getRole()}" name="role"/></td></tr>
+
+
+
+
+    <tr><th></th><td><input type="submit" th:value="#{general.text.save}"/></td></tr>
+  </table>
+</form>
+<form method="post" action="users/delete">
+  <input type="hidden" th:value="${User.getUserID()}" name="ID"/>
+  <table class="forma">
+    <tr><th></th><td><input type="submit" th:value="#{general.text.delete1  }"/></td></tr>
+  </table>
+</form>
+</body>
+</html>

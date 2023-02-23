@@ -11,6 +11,7 @@ public interface IUserService {
 	public User findUserByUsernameAndPassword(String username,String Password);
 
 	public int save(User user);
+	public User username(String username);
 
 	public int update(User user);
 

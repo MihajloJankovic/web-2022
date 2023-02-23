@@ -80,15 +80,22 @@ public class MedicineController  implements ServletContextAware {
     @GetMapping(value="/add")
     public ModelAndView create() {
         List<MedicineCategory> medicine = mcs.findAllMedicineCategories();
+        List<Manucfecturer> mann = mab.findAll();
+        List<MedicineCategory> cat = mcs.findAllUNDELETED();
         ModelAndView result = new ModelAndView("addMedicine");
         result.addObject("medicine", medicine);
+        result.addObject("Man", mann);
+        result.addObject("tip",Type.values());
+        result.addObject("kat",cat);
         return result;
     }
 
     @PostMapping(value="/add")
     public void create(@RequestParam String medicineName, @RequestParam String Description, @RequestParam String Contraindications, @RequestParam String type, @RequestParam String medicineCategory, @RequestParam int NumberofItems, @RequestParam int price, @RequestParam String manufecturer, HttpServletResponse response) throws IOException {
         List<MedicineCategory> allCategories = mcs.findAllMedicineCategories();
-        Medicine medicine = new Medicine(medicineName,Description,Contraindications, Type.valueOf(type),mcs.findOneMedicineCategoryByID(Long.valueOf(medicineCategory)),NumberofItems,price,manufecturer);
+        Manucfecturer man = new Manucfecturer();
+        man = mab.findOneByName(manufecturer);
+        Medicine medicine = new Medicine(medicineName,Description,Contraindications, Type.valueOf(type),mcs.findOneMedicineCategoryByName(medicineCategory),NumberofItems,price,man);
                 medicineService.save(medicine);
 
 
@@ -99,10 +106,12 @@ public class MedicineController  implements ServletContextAware {
 
 
     @PostMapping(value="/edit")
-    public void Edit(@RequestParam String medicineName, @RequestParam String Description, @RequestParam String Contraindications, @RequestParam String type, @RequestParam String medicineCategory, @RequestParam int NumberofItems, @RequestParam int price, @RequestParam String manufecturer, HttpServletResponse response) throws IOException {
-        Medicine medicine = new Medicine(medicineName,Description,Contraindications, Type.valueOf(type),mcs.findOneMedicineCategoryByID(Long.valueOf(medicineCategory)),NumberofItems,price,manufecturer);
+    public void Edit(@RequestParam String medicineName,@RequestParam long id, @RequestParam String Description, @RequestParam String Contraindications, @RequestParam String type, @RequestParam String medicineCategory, @RequestParam int NumberofItems, @RequestParam int price, @RequestParam String manufecturer, HttpServletResponse response) throws IOException {
+       Manucfecturer man = new Manucfecturer();
+       man = mab.findOneByName(manufecturer);
+        Medicine medicine = new Medicine(id,medicineName,Description,Contraindications, Type.valueOf(type),mcs.findOneMedicineCategoryByName(medicineCategory),NumberofItems,price,man);
 
-
+        medicineService.update(medicine);
         response.sendRedirect(servletContext.getContextPath() + "/Medicine");
     }
 
@@ -129,11 +138,12 @@ public class MedicineController  implements ServletContextAware {
     public ModelAndView details(Long id) {
         Medicine medicineCategory = medicineService.findOne(id);
         List<Manucfecturer> mann = mab.findAll();
+        List<MedicineCategory> cat = mcs.findAllMedicineCategories();
         ModelAndView result = new ModelAndView("DetailsM");
         result.addObject("medicineCategory", medicineCategory);
         result.addObject("Man", mann);
-
-
+        result.addObject("tip",Type.values());
+        result.addObject("kat",cat);
         return result;
     }
 

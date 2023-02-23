@@ -17,6 +17,25 @@ public class Manucfecturer {
         this.id = id;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCountry() {
+        return Country;
+    }
+
+    public void setCountry(String country) {
+        Country = country;
+    }
+
+    public Manucfecturer() {
+
+    }
     public String getName() {
         return Name;
     }

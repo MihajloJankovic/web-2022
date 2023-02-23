@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ftn.Pharmacy.Project.model.Medicine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -39,10 +40,11 @@ public class MedicineCategoryDAOImplementation implements MedicineCategoryDAO{
 			String medicineName = rs.getString(index++);
 			String medicinePurpose = rs.getString(index++);
 			String medicineDescription = rs.getString(index++);
+			Boolean deleted = rs.getBoolean(index++);
 			
 			MedicineCategory medicineCategory = medicineCategories.get(medicineID);
 			if(medicineCategory == null) {
-				medicineCategory = new MedicineCategory(medicineID, medicineName, medicinePurpose, medicineDescription);
+				medicineCategory = new MedicineCategory(medicineID, medicineName, medicinePurpose, medicineDescription,deleted);
 				medicineCategories.put(medicineID, medicineCategory);
 			}
 		}
@@ -61,6 +63,16 @@ public class MedicineCategoryDAOImplementation implements MedicineCategoryDAO{
 		jdbcTemplate.query(sql, rowCallbackHandler, id);
 		return rowCallbackHandler.getMedicineCategories().get(0);
 	}
+	@Override
+	public MedicineCategory findOneMedicineCategoryByName(String name)
+	{
+		String sql = "select * from medicineCategories where medicineName = ?";
+
+		MedicineCategoryRowCallBackHandler rowCallbackHandler = new MedicineCategoryRowCallBackHandler();
+		jdbcTemplate.query(sql, rowCallbackHandler, name);
+		return rowCallbackHandler.getMedicineCategories().get(0);
+
+	}
 
 	@Override
 	public List<MedicineCategory> findAll() {
@@ -71,7 +83,15 @@ public class MedicineCategoryDAOImplementation implements MedicineCategoryDAO{
 		return rowCallbackHandler.getMedicineCategories();
 		
 	}
-	
+	@Override
+	public List<MedicineCategory> findAllUNDELETED() {
+		String sql = "select * from medicineCategories where deleted = 0";
+
+		MedicineCategoryRowCallBackHandler rowCallbackHandler = new MedicineCategoryRowCallBackHandler();
+		jdbcTemplate.query(sql, rowCallbackHandler);
+		return rowCallbackHandler.getMedicineCategories();
+
+	}
 	@Transactional
 	@Override
 	public int save(MedicineCategory medicineCategory) {
@@ -79,13 +99,14 @@ public class MedicineCategoryDAOImplementation implements MedicineCategoryDAO{
 			
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				String sql = "insert into medicineCategories (medicineName, medicinePurpose, medicineDescription) values (?, ?, ?)";
+				String sql = "insert into medicineCategories (medicineName, medicinePurpose, medicineDescription,deleted) values (?, ?, ?,?)";
 				
 				PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				int index = 1;
 				preparedStatement.setString(index++, medicineCategory.getMedicineName());
 				preparedStatement.setString(index++, medicineCategory.getMedicinePurpose());
 				preparedStatement.setString(index++, medicineCategory.getMedicineDescription());
+				preparedStatement.setBoolean(index++, false);
 				return preparedStatement;
 			}
 			
@@ -107,7 +128,11 @@ public class MedicineCategoryDAOImplementation implements MedicineCategoryDAO{
 	@Transactional
 	@Override
 	public int delete(Long id) {
-		String sql = "delete from medicineCategories where medicineID = ?";
+		String sql = "update medicineCategories set deleted = 1 where medicineID = ?";
+		return jdbcTemplate.update(sql, id);
+	}
+	public int activate(Long id) {
+		String sql = "update medicineCategories set deleted = 0 where medicineID = ?";
 		return jdbcTemplate.update(sql, id);
 	}
 }

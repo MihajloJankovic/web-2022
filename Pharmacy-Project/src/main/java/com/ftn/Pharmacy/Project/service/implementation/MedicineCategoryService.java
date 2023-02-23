@@ -29,12 +29,23 @@ public class MedicineCategoryService implements IMedicineCategoryService {
 	public MedicineCategory findOneMedicineCategoryByID(Long id) {
 		return medicineCategoryDAO.findOne(id);
 	}
-
+	public MedicineCategory findOneMedicineCategoryByName(String name)
+	{
+		return medicineCategoryDAO.findOneMedicineCategoryByName(name);
+	}
 	@Override
 	public List<MedicineCategory> findAllMedicineCategories() {
 		return medicineCategoryDAO.findAll();
 	}
 
+	@Override
+	public List<MedicineCategory> findAllUNDELETED()
+	{
+		return  medicineCategoryDAO.findAllUNDELETED();
+	}
+	public int activate(Long id) {
+		return medicineCategoryDAO.activate(id);
+	}
 	@Override
 	public MedicineCategory saveMedicineCategory(MedicineCategory mc) {
 		medicineCategoryDAO.save(mc);

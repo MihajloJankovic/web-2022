@@ -12,5 +12,6 @@ public interface MedicineDao {
     public int update(Medicine medicine);
     public int delete(Long id);
 
+
 }
 

@@ -44,7 +44,7 @@
     <td th:text="${itUser.getPhoneNumber()}"></td>
     <td th:text="${itUser.getRole().toString()}"></td>
     <td>
-      <a th:href="|Users/details?id=${itUser.getUserID()}|" th:text="#{general.details}"></a>
+      <a th:href="|users/details?id=${itUser.getUserID()}|" th:text="#{general.details}"></a>
     </td>
 </table>
 </body>

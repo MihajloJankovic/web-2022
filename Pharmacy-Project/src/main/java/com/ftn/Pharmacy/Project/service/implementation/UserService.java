@@ -40,6 +40,10 @@ public class UserService implements IUserService {
 	{
 		return userDAOimpl.findOne(id);
 	}
+	public User username(String username)
+	{
+		return  userDAOimpl.username(username);
+	}
 	public User findUserByUsernameAndPassword(String username,String Password)
 	{
 		return userDAOimpl.usernamepassword(username,Password);

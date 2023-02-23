@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <base th:href="@{/}">
+  <meta charset="UTF-8">
+  <title>Medicine Add</title>
+  <link rel="stylesheet" type="text/css" href="css/FormStyles.css"/>
+  <link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/>
+  <script src="js/Java.js"></script>
+</head>
+<body>
+<ul>
+
+  <li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
+  <li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+</ul>
+<form method="post" action="Medicine/add">
+
+  <table class="forma">
+    <caption th:text="#{general.text.medinfo}"></caption>
+    <tr><th th:text="#{details.text.name}"></th><td><input type="text" required  name="medicineName"/></td></tr>
+    <tr><th th:text="#{details.text.Description}"></th><td><input type="text" required  name="Description"/></td></tr>
+    <tr><th th:text="#{details.text.Contraindications}"></th><td><input type="text" required name="Contraindications"/></td></tr>
+    <tr><th th:text="#{details.text.Type}"></th><td><select  required name="type" >
+      <option th:each="ittip, status: ${tip}"   th:text="${ittip}" ></option>
+    </select></td></tr>
+    <tr><th th:text="#{details.text.MedicineCategory}"></th><td><select required  name="medicineCategory" >
+      <option th:each="itkat, status: ${kat}"   th:text="${itkat.getMedicineName()}" ></option>
+    </select></td></tr>
+    <tr><th th:text="#{details.text.NumberofItems}"></th><td><input type="text" required  name="NumberofItems"/></td></tr>
+    <tr><th th:text="#{details.text.Price}"></th><td><input type="text" required name="price"/></td></tr>
+    <tr><th th:text="#{details.text.Manufecturer}"></th><td><select required  name = "manufecturer" >
+      <option th:each="itMan, status: ${Man}"   th:text="${itMan.getName()}"></option>
+    </select></td></tr>
+    <tr><th></th><td><input type="submit" th:value="#{Addmedicine.text.button}"/></td></tr>
+  </table>
+</form>
+
+</body>
+</html>

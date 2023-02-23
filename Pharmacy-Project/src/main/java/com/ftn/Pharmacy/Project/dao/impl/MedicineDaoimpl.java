@@ -89,12 +89,12 @@ public class MedicineDaoimpl implements MedicineDao{
 
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                String sql = "insert into medicament (id,name,Description,Contraindications,type,grade,medicineCategory,NumberofItems,price,manufecturer) values (?, ?, ?,?,?,?,?,?,?,?)";
+                String sql = "insert into medicament (name,Description,Contraindications,type,grade,medicineCategory,NumberofItems,price,manufecturer) values (?, ?, ?,?,?,?,?,?,?)";
 
                 PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 int index = 1;
 
-                preparedStatement.setLong(index++,   medicine.getId());
+
                 preparedStatement.setString(index++, medicine.getName());
                 preparedStatement.setString(index++, medicine.getDescription());
                 preparedStatement.setString(index++, medicine.getContraindications());
@@ -103,7 +103,7 @@ public class MedicineDaoimpl implements MedicineDao{
                 preparedStatement.setString(index++, medicine.getMedicineCategory().getMedicineID().toString());
                 preparedStatement.setInt(index++, medicine.getNumberofItems());
                 preparedStatement.setInt(index++, medicine.getPrice());
-                preparedStatement.setString(index++, medicine.getManufecturer().getName());
+                preparedStatement.setString(index++, String.valueOf(medicine.getManufecturer().getId()));
 
 
                 return preparedStatement;
@@ -111,7 +111,8 @@ public class MedicineDaoimpl implements MedicineDao{
 
         };
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-        boolean success = jdbcTemplate.update(preparedStatementCreator, keyHolder) == 1;
+        boolean success = true;
+        success = jdbcTemplate.update(preparedStatementCreator, keyHolder) == 1;
         return success?1:0;
     }
 
@@ -119,7 +120,7 @@ public class MedicineDaoimpl implements MedicineDao{
     public int update(Medicine medicine) {
         String sql = "update medicament set name= ?,Description= ?,Contraindications= ?,type= ?,grade= ?,medicineCategory= ?,NumberofItems= ?,price= ?,manufecturer = ? where id = ?";
         boolean success = true;
-        success = jdbcTemplate.update(sql, medicine.getName(),medicine.getDescription(),medicine.getContraindications(),medicine.getType().toString(),medicine.getGrade(),medicine.getMedicineCategory().getMedicineID().toString(),medicine.getPrice(),medicine.getManufecturer().getName(),medicine.getManufecturer().getName(),medicine.getId()) == 1;
+        success = jdbcTemplate.update(sql, medicine.getName(),medicine.getDescription(),medicine.getContraindications(),medicine.getType().toString(),medicine.getGrade(),medicine.getMedicineCategory().getMedicineID().toString(),medicine.getNumberofItems(),medicine.getPrice(),medicine.getManufecturer().getId().toString(),medicine.getId()) == 1;
 
         return success?1:0;
     }

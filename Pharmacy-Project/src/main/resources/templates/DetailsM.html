@@ -6,6 +6,7 @@
   <title>Medicine category</title>
   <link rel="stylesheet" type="text/css" href="css/FormStyles.css"/>
   <link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/>
+  <script src="js/Java.js"></script>
 </head>
 <body>
 <ul>
@@ -17,22 +18,26 @@
 
   <table class="forma">
     <caption th:text="#{general.text.medinfo}"></caption>
-    <tr><th th:text="#{details.text.name}"></th><td><input type="text" th:value="${medicineCategory.getName()}" name="medicineName"/></td></tr>
-    <tr><th th:text="#{details.text.Description}"></th><td><input type="text" th:value="${medicineCategory.getDescription()}" name="medicinePurpose"/></td></tr>
-    <tr><th th:text="#{details.text.Contraindications}"></th><td><input type="text" th:value="${medicineCategory.getContraindications()}" name="medicineDescription"/></td></tr>
-    <tr><th th:text="#{details.text.Type}"></th><td><input type="text" th:value="${medicineCategory.getType().name()}" name="medicineName"/></td></tr>
-    <tr><th th:text="#{details.text.Grade}"></th><td><input type="text" th:value="${medicineCategory.getGrade()}" name="medicinePurpose"/></td></tr>
-    <tr><th th:text="#{details.text.MedicineCategory}"></th><td><input type="text" th:value="${medicineCategory.getMedicineCategory().getMedicineName()}" name="medicineDescription"/></td></tr>
-    <tr><th th:text="#{details.text.NumberofItems}"></th><td><input type="text" th:value="${medicineCategory.getNumberofItems()}" name="medicineName"/></td></tr>
-    <tr><th th:text="#{details.text.Price}"></th><td><input type="text" th:value="${medicineCategory.getPrice()}" name="medicinePurpose"/></td></tr>
-    <tr><th th:text="#{details.text.Manufecturer}"></th><td><select >
-      <option th:each="itMan, status: ${Man}" th:text="${itMan.getName()}"></option>
+    <input type="hidden" th:value="${medicineCategory.getId()}" name="id"/>
+    <tr><th th:text="#{details.text.name}"></th><td><input type="text" required th:value="${medicineCategory.getName()}" name="medicineName"/></td></tr>
+    <tr><th th:text="#{details.text.Description}"></th><td><input type="text" required th:value="${medicineCategory.getDescription()}" name="Description"/></td></tr>
+    <tr><th th:text="#{details.text.Contraindications}"></th><td><input type="text" required th:value="${medicineCategory.getContraindications()}" name="Contraindications"/></td></tr>
+    <tr><th th:text="#{details.text.Type}"></th><td><select required name="type" >
+      <option th:each="ittip, status: ${tip}" th:selected="${medicineCategory.getType()} == ${ittip} ? true : false"  th:text="${ittip}" ></option>
+    </select></td></tr>
+    <tr><th th:text="#{details.text.MedicineCategory}"></th><td><select  required name="medicineCategory" >
+      <option th:each="itkat, status: ${kat}" th:selected="${medicineCategory.getMedicineCategory().getMedicineName()} == ${itkat.getMedicineName()} ? true : false"  th:text="${itkat.getMedicineName()}" ></option>
+    </select></td></tr>
+    <tr><th th:text="#{details.text.NumberofItems}"></th><td><input type="number" required th:value="${medicineCategory.getNumberofItems()}" name="NumberofItems"/></td></tr>
+    <tr><th th:text="#{details.text.Price}"></th><td><input type="number" required th:value="${medicineCategory.getPrice()}" name="price"/></td></tr>
+    <tr><th th:text="#{details.text.Manufecturer}"></th><td><select  required name = "manufecturer" >
+      <option th:each="itMan, status: ${Man}" th:selected="${medicineCategory.getManufecturer().getName()} == ${itMan.getName()} ? true : false"  th:text="${itMan.getName()}"></option>
     </select></td></tr>
     <tr><th></th><td><input type="submit" th:value="#{general.text.save}"/></td></tr>
   </table>
 </form>
-<form method="post" action="MedicineCategories/delete">
-
+<form method="post" action="Medicine/delete">
+  <input type="hidden" th:value="${medicineCategory.getId()}" name="medicineID"/>
   <table class="forma">
     <tr><th></th><td><input type="submit" th:value="#{general.text.delete}"/></td></tr>
   </table>

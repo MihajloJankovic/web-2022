@@ -19,6 +19,7 @@
 	 			<th th:text="#{Medicine.text.name}"></th>
 	 			<th th:text="#{Medicine.text.purpose}"></th>
 	 			<th th:text="#{Medicine.text.Description}"></th>
+				<th th:text="#{Medcat.deleted}"></th>
 	 			<th></th>
 	 		</tr>
 	 		<tr th:each="itMedicineCategory, status: ${medicineCategories}">
@@ -26,6 +27,7 @@
 	 			<td th:text="${itMedicineCategory.medicineName}"></td>
 	 			<td th:text="${itMedicineCategory.medicinePurpose}"></td>
 	 			<td th:text="${itMedicineCategory.medicineDescription}"></td>
+				<td th:text="${itMedicineCategory.getDeleted()}"></td>
 	 			<td>
 	 				<a th:href="|MedicineCategories/details?id=${itMedicineCategory.medicineID}|" th:text="#{general.details}"></a>
 	 			</td>

@@ -10,5 +10,8 @@ public interface IMedicineCategoryService {
     public MedicineCategory saveMedicineCategory(MedicineCategory mc);
     public MedicineCategory updateMedicineCategory(MedicineCategory mc);
     public MedicineCategory deleteMedicineCategory(Long id);
+    public MedicineCategory findOneMedicineCategoryByName(String name);
+    public List<MedicineCategory> findAllUNDELETED();
+    public int activate(Long id);
 
 }

@@ -6,6 +6,7 @@ public class MedicineCategory {
 	private String medicineName;
 	private String medicinePurpose;
 	private String medicineDescription;
+	private Boolean deleted;
 	
 	public MedicineCategory() {
 		
@@ -13,20 +14,30 @@ public class MedicineCategory {
 		this.medicinePurpose = "";
 		this.medicineDescription = "";
 	}
-	
-	public MedicineCategory(String medicineName, String medicinePurpose, String medicineDescription) {
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public MedicineCategory(String medicineName, String medicinePurpose, String medicineDescription, Boolean d) {
 		
 		this.medicineName = medicineName;
 		this.medicinePurpose = medicinePurpose;
 		this.medicineDescription = medicineDescription;
+		this.deleted = d;
 	}
 
-	public MedicineCategory(Long medicineID, String medicineName, String medicinePurpose, String medicineDescription) {
+	public MedicineCategory(Long medicineID, String medicineName, String medicinePurpose, String medicineDescription,Boolean d) {
 
 		this.medicineID = medicineID;
 		this.medicineName = medicineName;
 		this.medicinePurpose = medicinePurpose;
 		this.medicineDescription = medicineDescription;
+		this.deleted = d;
 	}
 
 	public String getMedicineName() {

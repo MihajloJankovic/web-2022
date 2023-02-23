@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.ftn.Pharmacy.Project.model.Medicine;
+import com.ftn.Pharmacy.Project.model.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -86,24 +87,39 @@ public class UserController implements ServletContextAware {
 		LocalDateTime dateNow = LocalDateTime.now();
 		String formatDateTime = dateNow.format(formatter);
 		LocalDateTime registeredTime = LocalDateTime.parse(formatDateTime, formatter);
-
-
 		LocalDate birthDate = LocalDate.parse(birthDateStr);
+		if(userService.username(username) != null)
+		{
+			res.sendRedirect(baseURL + "users/registerWrong");
+			return;
+		}
+	else{
 
 
-		User userForRegister = new User(username, password, email, name, surname, birthDate, street, streetNumber, city, country, phoneNumber,UserRole.CUSTOMER, registeredTime);
-		userService.save(userForRegister);
+			User userForRegister = new User(username, password, email, name, surname, birthDate, street, streetNumber, city, country, phoneNumber,UserRole.CUSTOMER, registeredTime);
+			userService.save(userForRegister);
 
-		res.sendRedirect(baseURL + "users/allUsers");
+			res.sendRedirect(baseURL + "users/allUsers");
+		}
 	}
 
 	@GetMapping(value = "/homepage")
 	@ResponseBody
 	public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+		ModelAndView result = new ModelAndView("UserLogin");
 		User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
 		if (loggedUser == null) {
+
 			response.sendRedirect(baseURL + "LogInLogOut/login");
+			return result;
+
+
+		}
+		if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+		{
+
+			response.sendRedirect(baseURL + "LogInLogOut/login");
+			return result;
 
 		}
 //		if(loggedUser.getRole().toString() != "ADMINISTRATOR") {
@@ -112,10 +128,47 @@ public class UserController implements ServletContextAware {
 //		}
 
 		List<User> users = userService.findAll();
-		ModelAndView result = new ModelAndView("HomeUser");
-		 result.addObject("User", users);
+		ModelAndView result1 = new ModelAndView("HomeUser");
+		 result1.addObject("User", users);
+		 result1.addObject("user",loggedUser);
 
-		return result;
+		return result1;
+
+
+
+	}
+
+	@GetMapping(value = "/details")
+	@ResponseBody
+	public ModelAndView Details(HttpServletRequest request, HttpServletResponse response,Integer id) throws IOException {
+		ModelAndView result = new ModelAndView("UserLogin");
+		User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+		if (loggedUser == null) {
+
+			response.sendRedirect(baseURL + "LogInLogOut/login");
+			return result;
+
+
+		}
+		if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+		{
+
+			response.sendRedirect(baseURL + "LogInLogOut/login");
+			return result;
+
+		}
+//		if(loggedUser.getRole().toString() != "ADMINISTRATOR") {
+//			response.sendRedirect(baseURL+"index");
+//			return "";
+//		}
+
+		User users = userService.findOne(Long.valueOf(id));
+		ModelAndView result1 = new ModelAndView("UserDetails");
+		result1.addObject("User", users);
+		result1.addObject("user",loggedUser);
+		result1.addObject("kat",UserRole.values());
+
+		return result1;
 
 
 
@@ -135,6 +188,15 @@ public class UserController implements ServletContextAware {
 		String pera = "test";
 		List<User> users = userService.findAll();
 		return pera;
+	}
+	@GetMapping(value = "registerWrong")
+	@ResponseBody
+	public ModelAndView registerWrong(HttpSession session, HttpServletResponse response) throws IOException {
+
+		ModelAndView result1 = new ModelAndView("RegisterWrong");
+
+
+		return result1;
 	}
 }
 
