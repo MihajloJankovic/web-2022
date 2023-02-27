@@ -27,7 +27,7 @@
     <tr><th th:text="#{details.text.MedicineCategory}"></th><td><select required  name="medicineCategory" >
       <option th:each="itkat, status: ${kat}"   th:text="${itkat.getMedicineName()}" ></option>
     </select></td></tr>
-    <tr><th th:text="#{details.text.NumberofItems}"></th><td><input type="text" required  name="NumberofItems"/></td></tr>
+    <tr><th th:text="#{details.text.NumberofItems}"></th><td><input type="text" required  readonly value="0" name="NumberofItems"/></td></tr>
     <tr><th th:text="#{details.text.Price}"></th><td><input type="text" required name="price"/></td></tr>
     <tr><th th:text="#{details.text.Manufecturer}"></th><td><select required  name = "manufecturer" >
       <option th:each="itMan, status: ${Man}"   th:text="${itMan.getName()}"></option>

@@ -52,6 +52,10 @@ public class UserService implements IUserService {
 	{
 		return userDAOimpl.findAll();
 	}
+	public int activate(Long id)
+	{
+		return userDAOimpl.activate(id);
+	}
 	public int save(User user)
 	{
 		return userDAOimpl.save(user);

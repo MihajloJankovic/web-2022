@@ -8,8 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
-import com.ftn.Pharmacy.Project.model.Medicine;
-import com.ftn.Pharmacy.Project.model.Type;
+import com.ftn.Pharmacy.Project.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ServletContextAware;
 
-import com.ftn.Pharmacy.Project.model.User;
-import com.ftn.Pharmacy.Project.model.UserRole;
 import com.ftn.Pharmacy.Project.service.implementation.UserService;
 
 import jakarta.annotation.PostConstruct;
@@ -138,6 +135,23 @@ public class UserController implements ServletContextAware {
 
 	}
 
+	@PostMapping(value = "/edit")
+	public void edit(@RequestParam(required = true) String id,@RequestParam(required = true) String username,
+						 @RequestParam(required = true) String pass, @RequestParam(required = true) String email,
+						 @RequestParam(required = true) String name, @RequestParam(required = true) String surname,
+						 @RequestParam(required = true) String bdate, @RequestParam(required = true) String street,
+						 @RequestParam(required = true) String streetnum, @RequestParam(required = true) String city,
+						 @RequestParam(required = true) String country, @RequestParam(required = true) String Phone,HttpSession session, HttpServletResponse res) throws IOException {
+
+
+		LocalDate birthDate = LocalDate.parse(bdate);
+
+			User userForedit = new User(Long.valueOf(id),username, pass, email, name, surname, birthDate, street, streetnum, city, country, Phone,UserRole.CUSTOMER,LocalDateTime.now(),false);
+			userService.update(userForedit);
+
+			res.sendRedirect(baseURL + "users/homepage");
+
+	}
 	@GetMapping(value = "/details")
 	@ResponseBody
 	public ModelAndView Details(HttpServletRequest request, HttpServletResponse response,Integer id) throws IOException {
@@ -197,6 +211,18 @@ public class UserController implements ServletContextAware {
 
 
 		return result1;
+	}
+	@PostMapping(value="/delete")
+	public void delete(Long id, HttpServletResponse response) throws IOException {
+		User deleted = userService.findOne(id);
+		if( deleted.isDeleted() == false)
+		{
+			userService.delete(deleted.getUserID());
+		}
+		else {
+			userService.activate(deleted.getUserID());
+		}
+		response.sendRedirect(baseURL+"users/homepage");
 	}
 }
 

@@ -50,13 +50,18 @@ public class UserDAOimpl implements UserDAO{
             String phoneNumber = rs.getString(index++);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime registeredTime = LocalDateTime.parse(rs.getString(index++), formatter);
-           // LocalDateTime registeredTime = LocalDateTime.parse(rs.getString(index++));
+
             UserRole role = UserRole.valueOf(rs.getString(index++));
+            Boolean deleted = rs.getBoolean(index++);
 
             User user = Users.get(userID);
             if(user == null) {
-                user = new User(userID,username,password,email,name,surname,birthDate,street,streetNumber,city,country,phoneNumber,role,registeredTime);
-                Users.put(userID, user);
+
+
+                    user = new User(userID,username,password,email,name,surname,birthDate,street,streetNumber,city,country,phoneNumber,role,registeredTime,deleted);
+                    Users.put(userID, user);
+
+
             }
 
 
@@ -78,7 +83,7 @@ public class UserDAOimpl implements UserDAO{
         return rowCallbackHandler.getUsers().get(0);
     }
     public User usernamepassword(String username,String password) {
-        String sql = "select * from users where username = ? and password = ?";
+        String sql = "select * from users where username = ? and password = ? and deleted = 0";
 
         UserDAOimpl.UserRowCallBackHandler rowCallbackHandler = new UserDAOimpl.UserRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallbackHandler,username,password);
@@ -117,6 +122,16 @@ public class UserDAOimpl implements UserDAO{
         return rowCallbackHandler.getUsers();
 
     }
+    @Transactional
+    @Override
+    public int delete(Long id) {
+        String sql = "update users set deleted = 1 where id = ?";
+        return jdbcTemplate.update(sql, id);
+    }
+    public int activate(Long id) {
+        String sql = "update users set deleted = 0 where id = ?";
+        return jdbcTemplate.update(sql, id);
+    }
 
     @Transactional
 
@@ -143,6 +158,7 @@ public class UserDAOimpl implements UserDAO{
                 preparedStatement.setString(index++, user.getPhoneNumber());
                 preparedStatement.setString(index++, user.getRole().toString());
                 preparedStatement.setString(index++, user.getRegisteredTime().toString());
+                preparedStatement.setBoolean(index++, false);
                 return preparedStatement;
             }
 
@@ -154,17 +170,11 @@ public class UserDAOimpl implements UserDAO{
 
 
     public int update(User user) {
-        String sql = "update user set username = ?, password = ?, email = ?, firstname = ?, surname = ?, birthDate = ?, street = ?, streetNumber = ?, City = ?, country = ?, phoneNumber = ?, userRole = ?  where id = ?";
+        String sql = "update users set username = ?, password = ?, email = ?, firstname = ?, surname = ?, birthDate = ?, street = ?, streetNumber = ?, City = ?, country = ?, phoneNumber = ? where id = ?";
         boolean success = true;
-        success = jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail(),user.getName(),user.getSurname(),user.getBirthDate().toString(),user.getStreet(),user.getStreetNumber(),user.getCity(),user.getCountry(),user.getPhoneNumber(),user.getRole().toString(), user.getUserID()) == 1;
+        success = jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail(),user.getName(),user.getSurname(),user.getBirthDate().toString(),user.getStreet(),user.getStreetNumber(),user.getCity(),user.getCountry(),user.getPhoneNumber(),user.getUserID()) == 1;
 
         return success?1:0;
     }
 
-    @Transactional
-
-    public int delete(Long id) {
-        String sql = "delete from user where id = ?";
-        return jdbcTemplate.update(sql, id);
-    }
 }

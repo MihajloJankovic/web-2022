@@ -22,6 +22,7 @@ public class User {
 	private String phoneNumber;
 	private UserRole role;
 	private boolean logged = false;
+	private boolean deleted ;
 
 	private LocalDateTime registeredTime;
 	private String birthDateStr;
@@ -42,7 +43,15 @@ public class User {
 		this.country = "";
 	}
 
-	public User(Long userID, String username, String password, String email, String name, String surname, LocalDate birthDate, String street, String streetNumber, String city, String country, String phoneNumber, UserRole role, LocalDateTime registeredTime) {
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public User(Long userID, String username, String password, String email, String name, String surname, LocalDate birthDate, String street, String streetNumber, String city, String country, String phoneNumber, UserRole role, LocalDateTime registeredTime, Boolean deleted) {
 		
 		this.userID = userID;
 		this.username = username;
@@ -59,6 +68,7 @@ public class User {
 		this.role = role;
 		this.registeredTime = registeredTime;
 		this.birthDateStr = String.valueOf(this.birthDate);
+		this.deleted = deleted;
 		}
 
 
@@ -76,6 +86,7 @@ public class User {
 		this.phoneNumber = phoneNumber;
 		this.role = role;
 		this.registeredTime = registeredTime;
+
 	}
 
 	public Long getUserID() {

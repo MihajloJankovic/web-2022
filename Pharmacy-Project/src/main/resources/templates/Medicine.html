@@ -26,6 +26,7 @@
     <th th:text="#{Medicine.text.Manufecturer}"></th>
 
     <th></th>
+    <th></th>
   </tr>
   <tr th:each="itMedicineCategory, status: ${medicineCategories}">
     <td th:text="${(status.index + 1)+'.'}"></td>
@@ -44,6 +45,12 @@
         <input type="hidden" id="id" name="id" th:value="|${itMedicineCategory.getId()}|">
         <input type="submit" th:value="#{general.details}">
       </form>
+
+
+    </td>
+    <td>
+     <a th:href="@{'Medicine/order?id=' + ${itMedicineCategory.getId()}}" ><button>order</button></a>
+
 
     </td>
 </table>

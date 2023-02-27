@@ -28,6 +28,7 @@
     <th th:text="#{user.text.birthDate}"></th>
     <th th:text="#{user.text.phoneNumber}"></th>
     <th th:text="#{user.text.role}"></th>
+    <th th:text="#{Medcat.deleted}"></th>
     <th></th>
 
 
@@ -43,6 +44,7 @@
     <td th:text="${itUser.getBirthDate()}"></td>
     <td th:text="${itUser.getPhoneNumber()}"></td>
     <td th:text="${itUser.getRole().toString()}"></td>
+    <td th:text="${itUser.isDeleted()}"></td>
     <td>
       <a th:href="|users/details?id=${itUser.getUserID()}|" th:text="#{general.details}"></a>
     </td>

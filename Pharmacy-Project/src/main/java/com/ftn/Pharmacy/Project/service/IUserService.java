@@ -12,6 +12,7 @@ public interface IUserService {
 
 	public int save(User user);
 	public User username(String username);
+	public int activate(Long id);
 
 	public int update(User user);
 

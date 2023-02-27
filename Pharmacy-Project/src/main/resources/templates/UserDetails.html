@@ -9,13 +9,12 @@
   <script src="js/Java.js"></script>
 </head>
 <body>
-<form method="post" action="Users/edit">
+  <form method="post" action="users/edit">
 
   <table class="forma">
     <caption th:text="#{user.capp}"></caption>
-    <input type="hidden" th:value="${User.getUserID()}" name="id"/>
-    <tr><th th:text="#{user.details.id}"></th><td><input type="text" disabled required th:value="${User.getUserID()}" name="id"/></td></tr>
-    <tr><th th:text="#{user.details.username}"></th><td><input type="text" required th:value="${User.getUsername()}" disabled name="username"/></td></tr>
+    <tr><th th:text="#{user.details.id}"></th><td><input type="text" readonly required th:value="${User.getUserID()}" name="id"/></td></tr>
+    <tr><th th:text="#{user.details.username}"></th><td><input type="text"  readonly required th:value="${User.getUsername()}" name="username"/></td></tr>
     <tr><th th:text="#{user.details.pass}"></th><td><input type="text" required th:value="${User.getPassword()}" name="pass"/></td></tr>
     <tr><th th:text="#{user.details.email}"></th><td><input type="text" required th:value="${User.getEmail()}" name="email"/></td></tr>
     <tr><th th:text="#{user.details.firstname}"></th><td><input type="text" required th:value="${User.getName()}" name="name"/></td></tr>
@@ -26,17 +25,17 @@
     <tr><th th:text="#{user.details.City}"></th><td><input type="text" required th:value="${User.getCity()}" name="city"/></td></tr>
     <tr><th th:text="#{user.details.Country}"></th><td><input type="text" required th:value="${User.getCountry()}" name="country"/></td></tr>
     <tr><th th:text="#{user.details.phone}"></th><td><input type="number" required th:value="${User.getPhoneNumber()}" name="Phone"/></td></tr>
-    <tr><th th:text="#{user.details.registeredTime}"></th><td><input type="datetime-local"  disabled required th:value="${User.getRegisteredTime()}" name="regtime"/></td></tr>
-    <tr><th th:text="#{user.role}"></th><td><input type="text"  disabled required th:value="${User.getRole()}" name="role"/></td></tr>
+    <tr><th th:text="#{user.details.registeredTime}"></th><td><input type="datetime-local"  readonly required th:value="${User.getRegisteredTime()}" name="regtime"/></td></tr>
+    <tr><th th:text="#{user.role}"></th><td><input type="text"  readonly required th:value="${User.getRole()}" name="role"/></td></tr>
 
 
 
 
     <tr><th></th><td><input type="submit" th:value="#{general.text.save}"/></td></tr>
   </table>
-</form>
+    </form>
 <form method="post" action="users/delete">
-  <input type="hidden" th:value="${User.getUserID()}" name="ID"/>
+  <input type="hidden" th:value="${user.getUserID()}" name="id"/>
   <table class="forma">
     <tr><th></th><td><input type="submit" th:value="#{general.text.delete1  }"/></td></tr>
   </table>
