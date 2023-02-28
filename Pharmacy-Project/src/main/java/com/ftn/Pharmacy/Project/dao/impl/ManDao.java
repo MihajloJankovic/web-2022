@@ -49,7 +49,7 @@ public class ManDao {
     }
     public Manucfecturer findOne(Long id)
     {
-        String sql = "select * from pharmacy.Manucfecturer where id = ?";
+        String sql = "select * from pharmacy.manucfecturer where id = ?";
 
         ManDao.MANRowCallBackHandler rowCallbackHandler = new ManDao.MANRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallbackHandler,id);
@@ -57,14 +57,14 @@ public class ManDao {
     }
     public Manucfecturer findOnebyName(String name)
     {
-        String sql = "select * from pharmacy.Manucfecturer where name = ?";
+        String sql = "select * from pharmacy.manucfecturer where name = ?";
 
         ManDao.MANRowCallBackHandler rowCallbackHandler = new ManDao.MANRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallbackHandler,name);
         return rowCallbackHandler.getMan().get(0);
     }
     public List<Manucfecturer> findAll() {
-        String sql = "select * from pharmacy.Manucfecturer";
+        String sql = "select * from pharmacy.manucfecturer";
 
         ManDao.MANRowCallBackHandler rowCallbackHandler = new ManDao.MANRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallbackHandler);
@@ -73,7 +73,7 @@ public class ManDao {
 
     public Manucfecturer findOneByName(String na)
     {
-        String sql = "select * from pharmacy.Manucfecturer where name = ?";
+        String sql = "select * from pharmacy.manucfecturer where name = ?";
 
         ManDao.MANRowCallBackHandler rowCallbackHandler = new ManDao.MANRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallbackHandler,na);

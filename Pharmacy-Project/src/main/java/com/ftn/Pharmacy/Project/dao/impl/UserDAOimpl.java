@@ -140,8 +140,8 @@ public class UserDAOimpl implements UserDAO{
 
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                String sql = "insert into users (username,password,email,firstname,surname,birthDate,street,streetNumber,city,country,phoneNumber,userRole,registeredTime) " +
-                        "values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                String sql = "insert into users (username,password,email,firstname,surname,birthDate,street,streetNumber,city,country,phoneNumber,userRole,registeredTime,deleted) " +
+                        "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 int index = 1;
@@ -167,7 +167,6 @@ public class UserDAOimpl implements UserDAO{
         jdbcTemplate.update(preparedStatementCreator);
         return 1;
     }
-
 
     public int update(User user) {
         String sql = "update users set username = ?, password = ?, email = ?, firstname = ?, surname = ?, birthDate = ?, street = ?, streetNumber = ?, City = ?, country = ?, phoneNumber = ? where id = ?";

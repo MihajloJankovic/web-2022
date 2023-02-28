@@ -18,10 +18,17 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Locale;
 
@@ -91,11 +98,15 @@ public class MedicineController  implements ServletContextAware {
     }
 
     @PostMapping(value="/add")
-    public void create(@RequestParam String medicineName, @RequestParam String Description, @RequestParam String Contraindications, @RequestParam String type, @RequestParam String medicineCategory, @RequestParam int NumberofItems, @RequestParam int price, @RequestParam String manufecturer, HttpServletResponse response) throws IOException {
+    public void create(@RequestParam String medicineName, @RequestParam("file")  MultipartFile file, @RequestParam String Description, @RequestParam String Contraindications, @RequestParam String type, @RequestParam String medicineCategory, @RequestParam int NumberofItems, @RequestParam int price, @RequestParam String manufecturer, HttpServletResponse response, HttpServletRequest request) throws IOException {
         List<MedicineCategory> allCategories = mcs.findAllMedicineCategories();
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(file.getBytes());
+        BufferedImage photo = ImageIO.read(bis);
+
         Manucfecturer man = new Manucfecturer();
         man = mab.findOneByName(manufecturer);
-        Medicine medicine = new Medicine(medicineName,Description,Contraindications, Type.valueOf(type),mcs.findOneMedicineCategoryByName(medicineCategory),NumberofItems,price,man);
+        Medicine medicine = new Medicine(medicineName,Description,Contraindications, Type.valueOf(type),mcs.findOneMedicineCategoryByName(medicineCategory),NumberofItems,price,man,photo);
                 medicineService.save(medicine);
 
 

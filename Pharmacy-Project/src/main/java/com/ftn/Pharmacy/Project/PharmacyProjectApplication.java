@@ -10,7 +10,6 @@ import com.ftn.Pharmacy.Project.service.implementation.UserService;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages= {"com.ftn.Pharmacy.Project"})
 public class PharmacyProjectApplication extends SpringBootServletInitializer {
 
 	@Override

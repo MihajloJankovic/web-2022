@@ -14,7 +14,7 @@
   <li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
   <li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
 </ul>
-<form method="post" action="Medicine/add">
+<form method="post" action="Medicine/add" enctype="multipart/form-data">
 
   <table class="forma">
     <caption th:text="#{general.text.medinfo}"></caption>
@@ -32,6 +32,7 @@
     <tr><th th:text="#{details.text.Manufecturer}"></th><td><select required  name = "manufecturer" >
       <option th:each="itMan, status: ${Man}"   th:text="${itMan.getName()}"></option>
     </select></td></tr>
+    <tr><th th:text="#{med.img}"></th><td><<input type="file" id="avatar" name="file"></td></tr>
     <tr><th></th><td><input type="submit" th:value="#{Addmedicine.text.button}"/></td></tr>
   </table>
 </form>

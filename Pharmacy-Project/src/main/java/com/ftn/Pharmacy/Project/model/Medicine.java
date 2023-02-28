@@ -1,5 +1,15 @@
 package com.ftn.Pharmacy.Project.model;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.Base64;
+
 public class Medicine {
     private Long id;
     private String Name;
@@ -12,8 +22,32 @@ public class Medicine {
     private int NumberofItems;
     private int price;
     Manucfecturer manufecturer;
+    boolean approved;
+    Image img;
 
-    public Medicine(Long id, String name, String description, String contraindications, Type type, double grade, MedicineCategory medicineCategory, int numberofItems, int price, Manucfecturer manufecturer) {
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public String getFIle()
+    {
+        final ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+        try
+        {
+            ImageIO.write((RenderedImage) this.getImg(),"png", os);
+            return "data:image/png;base64, " +Base64.getEncoder().encodeToString(os.toByteArray());
+        }
+        catch (final IOException ioe)
+        {
+            throw new UncheckedIOException(ioe);
+        }
+    }
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public Medicine(Long id, String name, String description, String contraindications, Type type, double grade, MedicineCategory medicineCategory, int numberofItems, int price, Manucfecturer manufecturer, boolean ap, BufferedImage photo) throws IOException {
         this.id = id;
         Name = name;
         Description = description;
@@ -24,6 +58,8 @@ public class Medicine {
         NumberofItems = numberofItems;
         this.price = price;
         this.manufecturer = manufecturer;
+        this.approved = ap;
+        this.img = photo;
     }
 
     public Medicine() {
@@ -43,7 +79,15 @@ public class Medicine {
         this.manufecturer = man;
     }
 
-    public Medicine(String medicineName, String description, String contraindications, Type valueOf, MedicineCategory oneMedicineCategoryByID, int numberofItems, int price, Manucfecturer man) {
+    public Image getImg() {
+        return img;
+    }
+
+    public void setImg(Image img) {
+        this.img = img;
+    }
+
+    public Medicine(String medicineName, String description, String contraindications, Type valueOf, MedicineCategory oneMedicineCategoryByID, int numberofItems, int price, Manucfecturer man, BufferedImage photo) throws IOException {
 
         Name = medicineName;
         Description = description;
@@ -54,6 +98,7 @@ public class Medicine {
         NumberofItems = numberofItems;
         this.price = price;
         this.manufecturer = man;
+        this.img = photo;
     }
 
     public void setId(Long id) {

@@ -19,11 +19,13 @@
     <th th:text="#{Medicine.text.name}"></th>
     <th th:text="#{Medicine.text.Description}"></th>
     <th th:text="#{Medicine.text.Type}"></th>
-    <th th:text="#{Medicine.text.Grade}"></th>
+    <th th:text="#{details.text.Grade}"></th>
     <th th:text="#{Medicine.text.MedicineCategory}"></th>
     <th th:text="#{Medicine.text.NumberofItem}"></th>
     <th th:text="#{Medicine.text.Price}"></th>
     <th th:text="#{Medicine.text.Manufecturer}"></th>
+    <th th:text="#{med.apr}"></th>
+    <th th:text="#{med.img }"> </th>
 
     <th></th>
     <th></th>
@@ -38,6 +40,8 @@
     <td th:text="${itMedicineCategory.getNumberofItems()}"></td>
     <td th:text="${itMedicineCategory.getPrice()}"></td>
     <td th:text="${itMedicineCategory.getManufecturer().getName()}"></td>
+    <td th:text="${itMedicineCategory.isApproved()}"></td>
+    <td><img th:src="${itMedicineCategory.getFIle()}"></td>
 
 
     <td>
@@ -49,7 +53,7 @@
 
     </td>
     <td>
-     <a th:href="@{'Medicine/order?id=' + ${itMedicineCategory.getId()}}" ><button>order</button></a>
+     <a th:href="@{'Medicine/order?id=' + ${itMedicineCategory.getId()}}" ><button th:text="#{details.order}"></button></a>
 
 
     </td>

@@ -17,6 +17,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialBlob;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -39,7 +45,10 @@ public class MedicineDaoimpl implements MedicineDao{
 
         @Override
         public void processRow(ResultSet rs) throws SQLException {
+            byte b[];
+            Blob blob;
             int index = 1;
+
             Long id = rs.getLong(index++);
             String Name = rs.getString(index++);
             String Description = rs.getString(index++);
@@ -52,8 +61,24 @@ public class MedicineDaoimpl implements MedicineDao{
             int cena = rs.getInt(index++);
             String ig = rs.getString(index++);
             Manucfecturer manucfecturer = man.findOne(Long.valueOf(ig));
+            Boolean ap = rs.getBoolean(index++);
+            blob=rs.getBlob(index++);
+            System.out.println(blob.length());
+            ByteArrayInputStream inStreambj = new ByteArrayInputStream(blob.getBytes(1L, (int) blob.length()));
 
-            Medicine medicinee  = new Medicine(id,Name,Description,Contraindications,type,rew, medicineCategory, broj, cena, manucfecturer);
+            BufferedImage slikaa = null;
+            try {
+                slikaa = ImageIO.read(inStreambj);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            Medicine medicinee  = null;
+            try {
+                medicinee = new Medicine(id,Name,Description,Contraindications,type,rew, medicineCategory, broj, cena, manucfecturer,ap,slikaa);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             medicines.put(id, medicinee);
 
         }
@@ -89,7 +114,7 @@ public class MedicineDaoimpl implements MedicineDao{
 
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                String sql = "insert into medicament (name,Description,Contraindications,type,grade,medicineCategory,NumberofItems,price,manufecturer) values (?, ?, ?,?,?,?,?,?,?)";
+                String sql = "insert into medicament (name,Description,Contraindications,type,grade,medicineCategory,NumberofItems,price,manufecturer,approved,photo) values (?, ?,?, ?,?,?,?,?,?,?,?)";
 
                 PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 int index = 1;
@@ -104,8 +129,16 @@ public class MedicineDaoimpl implements MedicineDao{
                 preparedStatement.setInt(index++, medicine.getNumberofItems());
                 preparedStatement.setInt(index++, medicine.getPrice());
                 preparedStatement.setString(index++, String.valueOf(medicine.getManufecturer().getId()));
-
-
+                preparedStatement.setBoolean(index++,medicine.isApproved());
+                ByteArrayOutputStream baos=new ByteArrayOutputStream();
+                try {
+                    ImageIO.write((RenderedImage) medicine.getImg(), "png", baos );
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                byte[] imageInByte=baos.toByteArray();
+                Blob aa = new SerialBlob(imageInByte);
+                preparedStatement.setBlob(index++,aa);
                 return preparedStatement;
             }
 
