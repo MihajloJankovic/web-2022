@@ -3,12 +3,14 @@ package com.ftn.Pharmacy.Project.service.implementation;
 import com.ftn.Pharmacy.Project.dao.MedicineDao;
 import com.ftn.Pharmacy.Project.model.Medicine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MedicineServiceimpl {
     @Autowired
-    private MedicineDao medicineDao;
+    public MedicineDao medicineDao;
 
 
     public Medicine findOneMedicineByID(Long id) {
@@ -20,7 +22,10 @@ public class MedicineServiceimpl {
         return medicineDao.findAll();
     }
 
-
+    public Medicine findOneByName(String name)
+    {
+        return  medicineDao.findOneByName(name);
+    }
     public Medicine saveMedicine(Medicine mc) {
         medicineDao.save(mc);
         return mc;

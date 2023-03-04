@@ -1,13 +1,13 @@
 package com.ftn.Pharmacy.Project.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftn.Pharmacy.Project.dao.MedicineDao;
-import com.ftn.Pharmacy.Project.model.Manucfecturer;
-import com.ftn.Pharmacy.Project.model.Medicine;
-import com.ftn.Pharmacy.Project.model.MedicineCategory;
-import com.ftn.Pharmacy.Project.model.Type;
+import com.ftn.Pharmacy.Project.model.*;
 import com.ftn.Pharmacy.Project.service.IMedicineCategoryService;
 import com.ftn.Pharmacy.Project.service.MedicineService;
 import com.ftn.Pharmacy.Project.service.implementation.Manucfecturere;
+import com.ftn.Pharmacy.Project.service.implementation.OrderService;
+import com.mysql.cj.xdevapi.JsonString;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,8 +29,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
 
 @Controller
 @RequestMapping(value="/Medicine")
@@ -51,6 +57,10 @@ public class MedicineController  implements ServletContextAware {
     private String bURL;
     @Autowired
     private Manucfecturere mab;
+    @Autowired
+    private OrderService ord;
+    @Autowired
+    HttpSession sesija;
     @Autowired
     private IMedicineCategoryService mcs;
 
@@ -114,7 +124,35 @@ public class MedicineController  implements ServletContextAware {
 
         response.sendRedirect(bURL + "Medicine");
     }
+    @GetMapping(value="/order")
+    public ModelAndView create(@RequestParam Long id , HttpServletResponse response, HttpServletRequest request) throws IOException {
+        List<Medicine> meds = medicineService.findAll();
 
+
+        ModelAndView result = new ModelAndView("orderMedicine");
+
+        result.addObject("Man", meds);
+
+        return result;
+    }
+    @PostMapping(value="/order")
+    public void create(@RequestBody String json,HttpServletResponse response, HttpServletRequest request) throws IOException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String,Object> map = mapper.readValue(json, Map.class);
+        Map<String,Integer> result = new ObjectMapper().readValue(map.get("mapa").toString(), HashMap.class);
+        String tekst = map.get("com").toString();
+
+
+       User pera = (User) sesija.getAttribute("user");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime dateNow = LocalDateTime.now();
+        String formatDateTime = dateNow.format(formatter);
+        LocalDateTime registeredTime = LocalDateTime.parse(formatDateTime, formatter);
+       Order or = new Order(tekst,false,false,pera,registeredTime,result);
+       ord.save(or);
+
+    }
 
     @PostMapping(value="/edit")
     public void Edit(@RequestParam String medicineName,@RequestParam long id, @RequestParam String Description, @RequestParam String Contraindications, @RequestParam String type, @RequestParam String medicineCategory, @RequestParam int NumberofItems, @RequestParam int price, @RequestParam String manufecturer, HttpServletResponse response) throws IOException {

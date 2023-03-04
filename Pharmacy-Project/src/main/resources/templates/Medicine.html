@@ -17,13 +17,8 @@
   <tr>
     <th th:text="#{Medicine.text.id}"></th>
     <th th:text="#{Medicine.text.name}"></th>
-    <th th:text="#{Medicine.text.Description}"></th>
-    <th th:text="#{Medicine.text.Type}"></th>
     <th th:text="#{details.text.Grade}"></th>
-    <th th:text="#{Medicine.text.MedicineCategory}"></th>
-    <th th:text="#{Medicine.text.NumberofItem}"></th>
     <th th:text="#{Medicine.text.Price}"></th>
-    <th th:text="#{Medicine.text.Manufecturer}"></th>
     <th th:text="#{med.apr}"></th>
     <th th:text="#{med.img }"> </th>
 
@@ -33,13 +28,8 @@
   <tr th:each="itMedicineCategory, status: ${medicineCategories}">
     <td th:text="${(status.index + 1)+'.'}"></td>
     <td th:text="${itMedicineCategory.getName()}"></td>
-    <td th:text="${itMedicineCategory.getDescription()}"></td>
-    <td th:text="${itMedicineCategory.getType().name()}"></td>
     <td th:text="${itMedicineCategory.getGrade()}"></td>
-    <td th:text="${itMedicineCategory.getMedicineCategory().getMedicineName()}"></td>
-    <td th:text="${itMedicineCategory.getNumberofItems()}"></td>
     <td th:text="${itMedicineCategory.getPrice()}"></td>
-    <td th:text="${itMedicineCategory.getManufecturer().getName()}"></td>
     <td th:text="${itMedicineCategory.isApproved()}"></td>
     <td><img th:src="${itMedicineCategory.getFIle()}"></td>
 

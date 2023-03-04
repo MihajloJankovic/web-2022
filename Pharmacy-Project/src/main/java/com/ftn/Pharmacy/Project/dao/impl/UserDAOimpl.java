@@ -2,6 +2,7 @@ package com.ftn.Pharmacy.Project.dao.impl;
 
 import com.ftn.Pharmacy.Project.dao.UserDAO;
 import com.ftn.Pharmacy.Project.model.MedicineCategory;
+import com.ftn.Pharmacy.Project.model.Order;
 import com.ftn.Pharmacy.Project.model.User;
 import com.ftn.Pharmacy.Project.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,6 +175,46 @@ public class UserDAOimpl implements UserDAO{
         success = jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail(),user.getName(),user.getSurname(),user.getBirthDate().toString(),user.getStreet(),user.getStreetNumber(),user.getCity(),user.getCountry(),user.getPhoneNumber(),user.getUserID()) == 1;
 
         return success?1:0;
+    }
+    public void savemap(Order order,int id)
+    {
+        for (String key : order.getMapa().keySet()) {
+            int value = order.getMapa().get(key);
+
+
+            PreparedStatementCreator preparedStatementCreator = new PreparedStatementCreator() {
+
+                @Override
+                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+
+
+                    String sql = "insert into mapaa(id,keyy,valuea) values (?,?,?)";
+                    PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                    int index = 1;
+
+
+
+                    preparedStatement.setLong(index++,Long.valueOf(id));
+                    preparedStatement.setString(index++,key);
+                    preparedStatement.setInt(index++,value);
+
+
+
+                    return preparedStatement;
+
+                }
+
+            };
+
+            GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+            boolean success = true;
+            success = jdbcTemplate.update(preparedStatementCreator, keyHolder) == 1;
+
+
+
+
+        }
+
     }
 
 }

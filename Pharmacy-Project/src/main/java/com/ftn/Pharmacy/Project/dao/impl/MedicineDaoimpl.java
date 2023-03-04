@@ -38,6 +38,8 @@ public class MedicineDaoimpl implements MedicineDao{
     private Manucfecturere man;
     @Autowired
     private IMedicineCategoryService mcs;
+    @Autowired
+    private gradeDAO gradeDAO;
 
     private class MedicineRowCallBackHandler implements RowCallbackHandler  {
 
@@ -54,7 +56,8 @@ public class MedicineDaoimpl implements MedicineDao{
             String Description = rs.getString(index++);
             String Contraindications = rs.getString(index++);
             Type type = Type.valueOf(rs.getString(index++));
-            Double rew = rs.getDouble(index++);
+            index++;
+            Double rew = gradeDAO.getGrade(id);
             String medcatid = rs.getString(index++);
             MedicineCategory medicineCategory = mcs.findOneMedicineCategoryByID(Long.valueOf(medcatid));
             int broj = rs.getInt(index++);
@@ -95,6 +98,14 @@ public class MedicineDaoimpl implements MedicineDao{
 
         MedicineDaoimpl.MedicineRowCallBackHandler rowCallbackHandler = new  MedicineDaoimpl.MedicineRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallbackHandler, id);
+        return rowCallbackHandler.getMedicine().get(0);
+    }
+    @Override
+    public Medicine findOneByName(String name) {
+        String sql = "select * from medicament where name = ?";
+
+        MedicineDaoimpl.MedicineRowCallBackHandler rowCallbackHandler = new  MedicineDaoimpl.MedicineRowCallBackHandler();
+        jdbcTemplate.query(sql, rowCallbackHandler, name);
         return rowCallbackHandler.getMedicine().get(0);
     }
 

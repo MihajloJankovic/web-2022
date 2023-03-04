@@ -11,6 +11,7 @@ public interface MedicineDao {
     public int save(Medicine medicine);
     public int update(Medicine medicine);
     public int delete(Long id);
+    public Medicine findOneByName(String name);
 
 
 }

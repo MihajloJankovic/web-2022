@@ -4,23 +4,53 @@
     <meta charset="UTF-8">
     <base th:href="@{/}">
     <title>Order</title>
+
     <link rel="stylesheet" type="text/css" href="css/FormStyles.css"/>
     <link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/>
 </head>
 <body>
+
 <ul>
     <li><a href="users" th:text="#{general.text.users}"></a></li>
     <li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
     <li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
 </ul>
-<form method="post" action="edicine/order">
-    <table>
-        <caption th:text="#{gener}" ></caption>
-        <tr><th th:text="#{Addmedicine.text.name}"></th><td><input type="text" readonly value="" name="medicineName" required/></td></tr>
-        <tr><th th:text="#{Addmedicine.text.purpose}"></th><td><input type="text" value="" name="Number" required/></td></tr>
 
-        <tr><th></th><td><input type="submit" th:value="#{Addmedicine.text.button}"/></td>
+<table style="visibility: hidden">
+    <td  style="visibility: hidden"><input  name ="num"  type="number" required  value="0" id="copy2"/></td>
+    <td style="visibility: hidden">  <select required  name ="name"  id  = "copy" onchange="doSomething();"  >
+        <option hidden disabled selected value> </option>
+        <option th:each="itMan, status: ${Man}"   th:text="${itMan.getName()}"></option>
+
+    </select></td>
+</table>
+    <table id="tablee">
+        <caption th:text="#{order.medicine}" ></caption>
+        <tr>
+            <th th:text="#{order.name}"></th>
+            <th th:text="#{order.number}"></th>
+
+        </tr>
+
+        <tr>
+
+            <td><select required  name="name" onchange="doSomething();" >
+                <option hidden disabled selected value>Select</option>
+                <option th:each="itMan, status: ${Man}"   th:text="${itMan.getName()}"></option>
+            </select></td>
+            <td><input type="number"  required  value="0" name="num"/></td>
+        </tr>
     </table>
-</form>
+<br>
+<input type="text" id="desc"  name = "desc" >
+<br>
+
+<br>
+    <button onclick="doSomething1()" th:text="#{order.b}"></button>
+<br>
+<br>
+<br>
+<button onclick="submit()" th:text="#{order.submit}"></button>
+<script src="js/Order.js"></script>
 </body>
 </html>

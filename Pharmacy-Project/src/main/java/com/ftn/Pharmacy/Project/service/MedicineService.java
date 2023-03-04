@@ -11,5 +11,6 @@ public interface MedicineService {
     public Medicine saveMedicine(Medicine mc);
     public Medicine updateMedicine(Medicine mc);
     public void Medicinedelete(Long id);
+    public Medicine findOneByName(String name);
 
 }
