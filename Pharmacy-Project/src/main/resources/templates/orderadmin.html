@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <title>Order</title>
+
+    <link rel="stylesheet" type="text/css" href="css/FormStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/>
+</head>
+<body>
+
+
+<ul>
+    <li><a href="users" th:text="#{general.text.users}"></a></li>
+    <li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
+    <li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+</ul>
+
+
+<table id="tablee" th:each="itMan, status: ${Man}">
+    <caption th:text="#{order.medicine}" ></caption>
+    <tr>
+        <th th:text="#{order.name}"></th>
+        <th th:text="#{order.number}"></th>
+        <th></th>
+    </tr>
+
+    <tr th:each="mapaa : ${itMan.getMapa().keySet()}">
+
+        <td><input type="text"  readonly th:value="${mapaa}"  name="num"/></td>
+        <td><input type="number"  readonly required  th:value="${itMan.getMapa().get(mapaa)}" name="num"/></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td th:text="#{order.comment}"></td>
+       <td><input type="text"  readonly th:value="${itMan.getFarmacistComment()}"  name="num"/></td>
+       <td></td>
+    </tr>
+    <tr>
+
+        <td th:text="#{admin.com}"></td>
+        <td><input type="text"  id="reson" name="num"/></td>
+        <td></td>
+    </tr>
+
+        <th><button th:id="${itMan.getId()}" th:text="#{order.b1}" onclick="uspesno(this.id)"></button></th>
+        <th><button th:id="${itMan.getId()}" th:text="#{order.b2}" onclick="vraceno(this.id)"></button></th>
+        <th><button th:id="${itMan.getId()}" th:text="#{order.b3}" onclick="odbijeno(this.id)"></button></th>
+
+</table>
+<br>
+<script src="js/orderadmin.js"></script>
+</body>
+</html>

@@ -75,10 +75,8 @@ public class MedicineController  implements ServletContextAware {
         bURL = servletContext.getContextPath() + "/";
     }
 
-    @Override
-    public void setServletContext(ServletContext servletContext) {
-        this.servletContext = servletContext;
-    }
+
+
 
 
 
@@ -95,20 +93,52 @@ public class MedicineController  implements ServletContextAware {
     }
 
     @GetMapping(value="/add")
-    public ModelAndView create() {
+    public ModelAndView create(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return result;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return result;
+
+        }
         List<MedicineCategory> medicine = mcs.findAllMedicineCategories();
         List<Manucfecturer> mann = mab.findAll();
         List<MedicineCategory> cat = mcs.findAllUNDELETED();
-        ModelAndView result = new ModelAndView("addMedicine");
+        ModelAndView result1 = new ModelAndView("addMedicine");
         result.addObject("medicine", medicine);
         result.addObject("Man", mann);
         result.addObject("tip",Type.values());
         result.addObject("kat",cat);
-        return result;
+        return result1;
     }
 
     @PostMapping(value="/add")
     public void create(@RequestParam String medicineName, @RequestParam("file")  MultipartFile file, @RequestParam String Description, @RequestParam String Contraindications, @RequestParam String type, @RequestParam String medicineCategory, @RequestParam int NumberofItems, @RequestParam int price, @RequestParam String manufecturer, HttpServletResponse response, HttpServletRequest request) throws IOException {
+
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+        }
         List<MedicineCategory> allCategories = mcs.findAllMedicineCategories();
 
         ByteArrayInputStream bis = new ByteArrayInputStream(file.getBytes());
@@ -126,18 +156,50 @@ public class MedicineController  implements ServletContextAware {
     }
     @GetMapping(value="/order")
     public ModelAndView create(@RequestParam Long id , HttpServletResponse response, HttpServletRequest request) throws IOException {
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return result;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return result;
+
+        }
         List<Medicine> meds = medicineService.findAll();
 
 
-        ModelAndView result = new ModelAndView("orderMedicine");
+        ModelAndView result1 = new ModelAndView("orderMedicine");
 
-        result.addObject("Man", meds);
+        result1.addObject("Man", meds);
 
-        return result;
+        return result1;
     }
     @PostMapping(value="/order")
     public void create(@RequestBody String json,HttpServletResponse response, HttpServletRequest request) throws IOException {
 
+
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+           return;
+
+        }
         ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> map = mapper.readValue(json, Map.class);
         Map<String,Integer> result = new ObjectMapper().readValue(map.get("mapa").toString(), HashMap.class);
@@ -151,6 +213,79 @@ public class MedicineController  implements ServletContextAware {
         LocalDateTime registeredTime = LocalDateTime.parse(formatDateTime, formatter);
        Order or = new Order(tekst,false,false,pera,registeredTime,result);
        ord.save(or);
+
+    }
+    @GetMapping(value="/adminorder")
+    public ModelAndView create( HttpServletResponse response, HttpServletRequest request) throws IOException {
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return result;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return result;
+
+        }
+
+        List<Order> meds =  ord.findAllforAprovval();
+
+
+
+        ModelAndView result1 = new ModelAndView("orderadmin");
+        result1.addObject("user",loggedUser);
+
+        result1.addObject("Man", meds);
+
+        return result1;
+
+
+
+
+
+    }
+    @PostMapping(value="/adminorder")
+    public void create1(@RequestBody String json,HttpServletResponse response, HttpServletRequest request) throws IOException {
+
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String,String> map = mapper.readValue(json, Map.class);
+        int i = Integer.parseInt(map.get("id"));
+        int param = Integer.parseInt(map.get("param"));
+        String come = map.get("coment");
+        if(param == 1)
+        {
+            ord.update1((long) i);
+        }
+        if(param == 2)
+        {
+            ord.update2((long) i);
+        }
+        if(param == 3)
+        {
+            ord.update3((long) i,come);
+        }
+
 
     }
 
@@ -197,4 +332,8 @@ public class MedicineController  implements ServletContextAware {
     }
 
 
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
 }

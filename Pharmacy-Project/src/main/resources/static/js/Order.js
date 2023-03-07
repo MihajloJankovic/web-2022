@@ -86,6 +86,8 @@ function zahtev()
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 console.log(xhr.responseText);
+                alert("Successful");
+                window.location.assign("http://localhost:8080/PharmacyProject/Medicine");
             } else {
                 console.error(xhr.statusText);
             }

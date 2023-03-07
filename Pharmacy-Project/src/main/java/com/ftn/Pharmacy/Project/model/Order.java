@@ -91,6 +91,10 @@ public class Order {
         return status;
     }
 
+    public void setMapa(Map<String, Integer> mapa) {
+        this.mapa = mapa;
+    }
+
     public void setStatus(boolean status) {
         this.status = status;
     }

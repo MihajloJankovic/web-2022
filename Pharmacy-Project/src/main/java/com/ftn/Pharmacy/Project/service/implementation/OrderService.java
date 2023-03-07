@@ -3,11 +3,9 @@ package com.ftn.Pharmacy.Project.service.implementation;
 import com.ftn.Pharmacy.Project.dao.impl.OrderDAO;
 import com.ftn.Pharmacy.Project.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.*;
 import java.util.List;
 
 
@@ -34,5 +32,17 @@ public class OrderService {
     @Transactional
     public void save(Order order) {
          dao.save(order);
+    }
+    public void update1(Long id)
+    {
+        dao.update1(id);
+    }
+    public void update2(Long id)
+    {
+        dao.update2(id);
+    }
+    public void update3(Long id,String come)
+    {
+        dao.update3(id,come);
     }
 }

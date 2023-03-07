@@ -30,6 +30,8 @@ public class OrderDAO{
 
     @Autowired
     private UserDAOimpl userdao;
+    @Autowired
+    private mapsDao maps;
     private final JdbcTemplate jdbcTemplate;
 
     public OrderDAO(JdbcTemplate jdbcTemplate) {
@@ -54,8 +56,10 @@ public class OrderDAO{
             LocalDateTime time = LocalDateTime.parse(rs.getString(index++), formatter);
 
             Order medicineCategory = orders.get(id);
+
             if(medicineCategory == null) {
                 medicineCategory = new Order(id,adminc,farmacistc,status,declined,farmacist,time);
+                medicineCategory.setMapa(maps.findOneForReview(id));
                 orders.put(id, medicineCategory);
             }
         }
@@ -68,7 +72,7 @@ public class OrderDAO{
 
     public Order findOneForReview(Long id)
     {
-        String sql = "select * from pharmacy.ordera where id = ? and status = 0";
+        String sql = "select * from pharmacy.ordera where id = ? and status = 0 and declined = 0";
 
         OrderDAO.MANRowCallBackHandler rowCallbackHandler = new OrderDAO.MANRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallbackHandler,id);
@@ -82,6 +86,27 @@ public class OrderDAO{
         jdbcTemplate.query(sql, rowCallbackHandler,id);
         return rowCallbackHandler.getOrder().get(0);
     }
+    public void update1(Long id)
+    {
+        String sql = "update pharmacy.ordera set declined = 1 and status =  0  where id = ?";
+
+        boolean success = true;
+        success = jdbcTemplate.update(sql,id) == 1;
+    }
+    public void update2(Long id)
+    {
+        String sql = "update pharmacy.ordera set status = 1  and declined = 0 where id = ?";
+
+        boolean success = true;
+        success = jdbcTemplate.update(sql,id) == 1;
+    }
+    public void update3(Long id,String come)
+    {
+        String sql = "update pharmacy.ordera set status = 1, declined = 1,adminC = ?  where id = ?";
+
+        boolean success = true;
+        success = jdbcTemplate.update(sql,come,id) == 1;
+    }
 
     public List<Order> findAllforEDITorDeclined(Long id) {
         String sql = "select * from pharmacy.ordera where status = 1 and farmacistID = ?";
@@ -91,7 +116,7 @@ public class OrderDAO{
         return rowCallbackHandler.getOrder();
     }
     public List<Order> findAllforAprovval() {
-        String sql = "select * from pharmacy.ordera where status = 0";
+        String sql = "select * from pharmacy.ordera where status = 0 and declined = 0";
 
         OrderDAO.MANRowCallBackHandler rowCallbackHandler = new OrderDAO.MANRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallbackHandler);
