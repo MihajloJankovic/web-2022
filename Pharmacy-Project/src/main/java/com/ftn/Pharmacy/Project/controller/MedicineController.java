@@ -81,15 +81,29 @@ public class MedicineController  implements ServletContextAware {
 
 
     @GetMapping
-    public ModelAndView index() {
+    public ModelAndView index(HttpServletResponse response,HttpServletRequest request) {
+
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
 
 
+            return result;
 
+
+        }
+        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        {
+
+
+            return result;
+
+        }
 
         List<Medicine> medicineCategories = medicineService.findAll();
-        ModelAndView result = new ModelAndView("Medicine");
-        result.addObject("medicineCategories", medicineCategories);
-        return result;
+        ModelAndView result1 = new ModelAndView("Medicine");
+        result1.addObject("medicineCategories", medicineCategories);
+        return result1;
     }
 
     @GetMapping(value="/add")
@@ -114,10 +128,10 @@ public class MedicineController  implements ServletContextAware {
         List<Manucfecturer> mann = mab.findAll();
         List<MedicineCategory> cat = mcs.findAllUNDELETED();
         ModelAndView result1 = new ModelAndView("addMedicine");
-        result.addObject("medicine", medicine);
-        result.addObject("Man", mann);
-        result.addObject("tip",Type.values());
-        result.addObject("kat",cat);
+        result1.addObject("medicine", medicine);
+        result1.addObject("Man", mann);
+        result1.addObject("tip",Type.values());
+        result1.addObject("kat",cat);
         return result1;
     }
 

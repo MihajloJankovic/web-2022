@@ -78,3 +78,4 @@ function odbijeno(a)
     alert("State the reason for rejection !");
   }
 }
+

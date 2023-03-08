@@ -17,7 +17,7 @@
 		<input type="hidden" name="medicineID" th:value="${medicineCategory.medicineID}"/><!-- popuni value atribut vrednošću -->
 		<table class="forma">
 			<caption>Category info</caption>
-			<tr><th th:text="#{Medicine.text.name}"></th><td><input type="text" th:value="${medicineCategory.medicineName}" name="medicineName"/></td></tr>
+			<tr><th  th:text="#{Medicine.text.name}"></th><td><input type="text" th:value="${medicineCategory.medicineName}" name="medicineName"/></td></tr>
 			<tr><th th:text="#{Medicine.text.purpose}"></th><td><input type="text" th:value="${medicineCategory.medicinePurpose}" name="medicinePurpose"/></td></tr>
 			<tr><th th:text="#{Medicine.text.Description}"></th><td><input type="text" th:value="${medicineCategory.medicineDescription}" name="medicineDescription"/></td></tr>
 			<tr><th></th><td><input type="submit" th:value="#{general.text.save}"/></td></tr>

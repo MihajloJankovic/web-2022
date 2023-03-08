@@ -12,14 +12,16 @@
   <li><a href="users" th:text="#{general.text.users}"></a></li>
   <li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
 </ul>
-<table>
+<table id="myTable2">
   <caption th:text="#{general.text.meds}"></caption>
   <tr>
-    <th th:text="#{Medicine.text.id}"></th>
-    <th th:text="#{Medicine.text.name}"></th>
-    <th th:text="#{details.text.Grade}"></th>
-    <th th:text="#{Medicine.text.Price}"></th>
-    <th th:text="#{med.apr}"></th>
+    <th  onclick="sortTable2(0)" th:text="#{Medicine.text.id}"></th>
+    <th onclick="sortTable(1)" th:text="#{Medicine.text.name}"></th>
+    <th onclick="sortTable2(2)" th:text="#{details.text.Grade}"></th>
+    <th onclick="sortTable2(3)" th:text="#{Medicine.text.Price}"></th>
+    <th onclick="sortTable(4)" th:text="#{Medicine.text.MedicineCategory}"> </th>
+    <th onclick="sortTable(5)" th:text="#{Medicine.text.Manufecturer}"> </th>
+    <th  onclick="sortTable(6)" th:text="#{med.apr}"></th>
     <th th:text="#{med.img }"> </th>
 
     <th></th>
@@ -30,6 +32,8 @@
     <td th:text="${itMedicineCategory.getName()}"></td>
     <td th:text="${itMedicineCategory.getGrade()}"></td>
     <td th:text="${itMedicineCategory.getPrice()}"></td>
+    <td th:text="${itMedicineCategory.getMedicineCategory().getMedicineName()}"></td>
+    <td th:text="${itMedicineCategory.getManufecturer().getName()}"></td>
     <td th:text="${itMedicineCategory.isApproved()}"></td>
     <td><img th:src="${itMedicineCategory.getFIle()}"></td>
 
@@ -52,5 +56,6 @@
   <li><a href = "Medicine/add" th:text="#{Addmedicine.text.button}"></a></li>
 
 </ul>
+<script src="js/Java.js"></script>
 </body>
 </html>

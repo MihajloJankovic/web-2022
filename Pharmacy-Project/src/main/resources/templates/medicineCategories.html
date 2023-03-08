@@ -12,11 +12,11 @@
 			<li><a href="users" th:text="#{general.text.users}"></a></li>
 			<li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
 	 	</ul>
-	 	<table>
+	 	<table id="myTable2">
 	 		<caption th:text="#{Medicine.text.cap}">Medicine categories</caption>
 	 		<tr>
-	 			<th th:text="#{Medicine.text.id}"></th>
-	 			<th th:text="#{Medicine.text.name}"></th>
+	 			<th  th:text="#{Medicine.text.id}"></th>
+	 			<th  th:text="#{Medicine.text.name}"></th>
 	 			<th th:text="#{Medicine.text.purpose}"></th>
 	 			<th th:text="#{Medicine.text.Description}"></th>
 				<th th:text="#{Medcat.deleted}"></th>
@@ -35,5 +35,7 @@
 	 	<ul>
 	 		<li><a href = "MedicineCategories/add" th:text="#{Addmedicine.text.button}"></a></li>
 	 	</ul>
+		<script src="js/Java.js"></script>
 	</body>
+
 </html>
