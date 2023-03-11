@@ -2,12 +2,13 @@ package com.ftn.Pharmacy.Project.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftn.Pharmacy.Project.dao.MedicineDao;
+import com.ftn.Pharmacy.Project.dao.impl.OrderDAO;
 import com.ftn.Pharmacy.Project.model.*;
 import com.ftn.Pharmacy.Project.service.IMedicineCategoryService;
 import com.ftn.Pharmacy.Project.service.MedicineService;
 import com.ftn.Pharmacy.Project.service.implementation.Manucfecturere;
 import com.ftn.Pharmacy.Project.service.implementation.OrderService;
-import com.mysql.cj.xdevapi.JsonString;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -287,9 +288,21 @@ public class MedicineController  implements ServletContextAware {
         int i = Integer.parseInt(map.get("id"));
         int param = Integer.parseInt(map.get("param"));
         String come = map.get("coment");
+
         if(param == 1)
         {
+            Order aa = ord.findOneForReview(Long.valueOf(i));
+            for (String key: aa.getMapa().keySet())
+            {
+                Medicine lek = medicineService.findOneByName(key);
+                int broj = lek.getNumberofItems();
+                int lekbroj = aa.getMapa().get(key);
+                lek.setNumberofItems(broj+lekbroj);
+                medicineService.update(lek);
+
+            }
             ord.update1((long) i);
+
         }
         if(param == 2)
         {
