@@ -1,4 +1,4 @@
-var re = document.getElementById("reson");
+
 function uspesno(a)
 {
     const FD = new FormData();
@@ -48,7 +48,8 @@ function vraceno(a)
 }
 function odbijeno(a)
 {
-    var b  = re.value.valueOf();
+    var ree = document.getElementsByName(a.valueOf());
+    var b  = ree[0].value.valueOf();
   if(b.trim().length > 5)
   {
       const FD = new FormData();
@@ -78,4 +79,39 @@ function odbijeno(a)
     alert("State the reason for rejection !");
   }
 }
+function review(a)
+{
+    var ree = document.getElementsByName(a.valueOf());
+    var b  = ree[0].value.valueOf();
+    if(b.trim().length > 5)
+    {
+        const FD = new FormData();
+        FD.append("param",3);
+        FD.append("id",a);
+        FD.append("coment",b.trim());
+        const pera = Object.fromEntries(FD);
+        const json1 = JSON.stringify(pera);
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "Medicine/orderfar", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log(xhr.responseText);
+                    alert("Successful send");
+                    location.reload();
+                } else {
+                    console.error(xhr.statusText);
+                }
+            }
+        };
+        xhr.send(json1);
+    }
+    else
+    {
+        alert("State the reason for rejection !");
+    }
+}
+
+
 

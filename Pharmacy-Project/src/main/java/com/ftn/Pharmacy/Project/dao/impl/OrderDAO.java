@@ -107,9 +107,22 @@ public class OrderDAO{
         boolean success = true;
         success = jdbcTemplate.update(sql,come,id) == 1;
     }
+    public void update4(Long id,String come)
+    {
+        String sql = "update pharmacy.ordera set faramacistC = ?,status = 0, declined = 0   where id = ?";
 
-    public List<Order> findAllforEDITorDeclined(Long id) {
-        String sql = "select * from pharmacy.ordera where status = 1 and farmacistID = ?";
+        boolean success = true;
+        success = jdbcTemplate.update(sql,come,id) == 1;
+    }
+    public List<Order> findAllforEDIT(Long id) {
+        String sql = "select * from pharmacy.ordera where status = 1 and declined = 0 and farmacistID = ?";
+
+        OrderDAO.MANRowCallBackHandler rowCallbackHandler = new OrderDAO.MANRowCallBackHandler();
+        jdbcTemplate.query(sql, rowCallbackHandler,id);
+        return rowCallbackHandler.getOrder();
+    }
+    public List<Order> findAllDeleted(Long id) {
+        String sql = "select * from pharmacy.ordera where status = 1 and declined = 1 and farmacistID = ?";
 
         OrderDAO.MANRowCallBackHandler rowCallbackHandler = new OrderDAO.MANRowCallBackHandler();
         jdbcTemplate.query(sql, rowCallbackHandler,id);

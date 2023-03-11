@@ -23,8 +23,15 @@ public class OrderService {
         return dao.findOneForEdit(id);
     }
 
-    public List<Order> findAllforEDITorDeclined(Long id) {
-      return dao.findAllforEDITorDeclined(id);
+    public List<Order> findAllforEDIT(Long id) {
+      return dao.findAllforEDIT(id);
+    }
+    public List<Order> findAllDeleted(Long id) {
+        return dao.findAllDeleted(id);
+    }
+    public void update4(Long id,String come)
+    {
+        dao.update4(id,come);
     }
     public List<Order> findAllforAprovval() {
         return dao.findAllforAprovval();

@@ -230,6 +230,64 @@ public class MedicineController  implements ServletContextAware {
        ord.save(or);
 
     }
+    @GetMapping(value="/orderfar")
+    public ModelAndView create1(HttpServletResponse response, HttpServletRequest request) throws IOException {
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return result;
+
+
+        }
+        if(loggedUser.getRole() == UserRole.CUSTOMER)
+        {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return result;
+
+        }
+        List<Order> ords = ord.findAllforEDIT(loggedUser.getUserID());
+        List<Order> ordss = ord.findAllDeleted(loggedUser.getUserID());
+
+        ModelAndView result1 = new ModelAndView("FrmacistOrders");
+
+        result1.addObject("Man", ords);
+        result1.addObject("Mana", ordss);
+
+        return result1;
+    }
+    @PostMapping(value="/orderfar")
+    public void create2(@RequestBody String json,HttpServletResponse response, HttpServletRequest request) throws IOException {
+
+
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+
+        }
+        if(loggedUser.getRole() == UserRole.CUSTOMER )
+        {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String,String> map = mapper.readValue(json, Map.class);
+        int i = Integer.parseInt(map.get("id"));
+        String come = map.get("coment");
+
+        ord.update4((long) i,come);
+
+
+
+    }
     @GetMapping(value="/adminorder")
     public ModelAndView create( HttpServletResponse response, HttpServletRequest request) throws IOException {
         ModelAndView result = new ModelAndView("UserLogin");

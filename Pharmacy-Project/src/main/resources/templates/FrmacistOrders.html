@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <title>Order</title>
+
+    <link rel="stylesheet" type="text/css" href="css/FormStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/>
+</head>
+<body>
+
+
+<ul>
+    <li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
+    <li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+</ul>
+
+
+<table id="tablee" th:each="itMan, status: ${Man}">
+    <caption th:text="#{Returned}" ></caption>
+    <tr>
+        <th th:text="#{order.name}"></th>
+        <th th:text="#{order.number}"></th>
+        <th></th>
+    </tr>
+
+    <tr th:each="mapaa : ${itMan.getMapa().keySet()}">
+
+        <td><input type="text"  readonly th:value="${mapaa}"  name="num"/></td>
+        <td><input type="number"  readonly required  th:value="${itMan.getMapa().get(mapaa)}" name="num"/></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+
+        <td th:text="#{farm.com}"></td>
+        <td><input type="text" th:value="${itMan.getFarmacistComment()}" th:name="${itMan.getId()}"  id="coment" name=""/></td>
+        <td></td>
+    </tr>
+
+    <th><button th:id="${itMan.getId()}" th:text="#{Return.s}" onclick="review((this.id))" ></button></th>
+
+
+</table><table id="tableee" th:each="itMana, status: ${Mana}">
+    <caption th:text="#{Declined.order}" ></caption>
+    <tr>
+        <th th:text="#{order.name}"></th>
+        <th th:text="#{order.number}"></th>
+        <th></th>
+    </tr>
+
+    <tr th:each="mapaa : ${itMana.getMapa().keySet()}">
+
+        <td><input type="text"  readonly th:value="${mapaa}"  name="num"/></td>
+        <td><input type="number"  readonly required  th:value="${itMana.getMapa().get(mapaa)}" name="num"/></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+
+        <td th:text="#{admin.com}"></td>
+        <td><input type="text" readonly  id="reson1" th:value="${itMana.getAdminComment()}" name="num"/></td>
+        <td></td>
+    </tr>
+    <tr>
+
+        <td th:text="#{farm.com}"></td>
+        <td><input type="text"  readonly th:value="${itMana.getFarmacistComment()}" id="coment2" name="num"/></td>
+        <td></td>
+    </tr>
+
+
+
+
+
+    <br>
+<script src="js/orderadmin.js"></script>
+</body>
+</html>
