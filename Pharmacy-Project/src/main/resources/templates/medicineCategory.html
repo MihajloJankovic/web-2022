@@ -9,10 +9,16 @@
 </head>
 <body>
 	<ul>
-		<li><a href="users" th:text="#{general.text.users}"></a></li>
+
 		<li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
 		<li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
  	</ul>
+	<ul>
+		<li><a href="users/myprofile" th:text="#{My.Profile}"></a></li>
+	</ul>
+	<form action="LogInLogOut/logout" method="get" >
+		<input type="submit"  th:value="#{general.text.logout}"/>
+	</form>
  	<form method="post" action="MedicineCategories/edit">
 		<input type="hidden" name="medicineID" th:value="${medicineCategory.medicineID}"/><!-- popuni value atribut vrednošću -->
 		<table class="forma">

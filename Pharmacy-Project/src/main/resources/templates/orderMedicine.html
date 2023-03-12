@@ -11,10 +11,16 @@
 <body>
 
 <ul>
-    <li><a href="users" th:text="#{general.text.users}"></a></li>
+
     <li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
     <li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
 </ul>
+<ul>
+    <li><a href="users/myprofile" th:text="#{My.Profile}"></a></li>
+</ul>
+<form action="LogInLogOut/logout" method="get" >
+    <input type="submit"  th:value="#{general.text.logout}"/>
+</form>
 
 <table style="visibility: hidden">
     <td  style="visibility: hidden"><input  name ="num"  type="number" required  value="0" id="copy2"/></td>

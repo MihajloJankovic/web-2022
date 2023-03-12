@@ -20,37 +20,40 @@
 <form action="LogInLogOut/logout" method="get" >
   <input type="submit"  th:value="#{general.text.logout}"/>
 </form>
-<form method="post" action="Medicine/edit">
+<form>
 
   <table class="forma">
     <caption th:text="#{general.text.medinfo}"></caption>
     <input type="hidden" th:value="${medicineCategory.getId()}" name="id"/>
-    <tr><th th:text="#{details.text.name}"></th><td><input type="text" required th:value="${medicineCategory.getName()}" name="medicineName"/></td></tr>
-    <tr><th th:text="#{details.text.Description}"></th><td><input type="text" required th:value="${medicineCategory.getDescription()}" name="Description"/></td></tr>
-    <tr><th th:text="#{details.text.Contraindications}"></th><td><input type="text" required th:value="${medicineCategory.getContraindications()}" name="Contraindications"/></td></tr>
-    <tr><th th:text="#{details.text.Type}"></th><td><select required name="type" >
+    <tr><th th:text="#{details.text.name}"></th><td><input type="text" required readonly th:value="${medicineCategory.getName()}" name="medicineName"/></td></tr>
+    <tr><th th:text="#{details.text.Description}"></th><td><input type="text" required readonly th:value="${medicineCategory.getDescription()}" name="Description"/></td></tr>
+    <tr><th th:text="#{details.text.Contraindications}"></th><td><input type="text" required readonly th:value="${medicineCategory.getContraindications()}" name="Contraindications"/></td></tr>
+    <tr><th th:text="#{details.text.Type}"></th><td><select disabled required name="type" >
       <option th:each="ittip, status: ${tip}" th:selected="${medicineCategory.getType()} == ${ittip} ? true : false"  th:text="${ittip}" ></option>
     </select></td></tr>
-    <tr><th th:text="#{details.text.MedicineCategory}"></th><td><select  required name="medicineCategory" >
+    <tr><th th:text="#{details.text.MedicineCategory}"></th><td><select disabled  required name="medicineCategory" >
       <option th:each="itkat, status: ${kat}" th:selected="${medicineCategory.getMedicineCategory().getMedicineName()} == ${itkat.getMedicineName()} ? true : false"  th:text="${itkat.getMedicineName()}" ></option>
     </select></td></tr>
-    <tr><th th:text="#{details.text.NumberofItems}"></th><td><input type="number" required th:value="${medicineCategory.getNumberofItems()}" name="NumberofItems"/></td></tr>
-    <tr><th th:text="#{details.text.Price}"></th><td><input type="number" required th:value="${medicineCategory.getPrice()}" name="price"/></td></tr>
-    <tr><th th:text="#{details.text.Manufecturer}"></th><td><select  required name = "manufecturer" >
+    <tr><th th:text="#{details.text.NumberofItems}"></th><td><input  type="number" required th:value="${medicineCategory.getNumberofItems()}" name="NumberofItems"/></td></tr>
+    <tr><th th:text="#{details.text.Price}"></th><td><input readonly type="number" required th:value="${medicineCategory.getPrice()}" name="price"/></td></tr>
+    <tr><th th:text="#{details.text.Manufecturer}"></th><td><select disabled  required name = "manufecturer" >
       <option th:each="itMan, status: ${Man}" th:selected="${medicineCategory.getManufecturer().getName()} == ${itMan.getName()} ? true : false"  th:text="${itMan.getName()}"></option>
     </select></td></tr>
-    <tr><th></th><td><input type="submit" th:value="#{general.text.save}"/></td></tr>
+
   </table>
 </form>
-<form method="post" action="Medicine/delete">
-  <input type="hidden" th:value="${medicineCategory.getId()}" name="medicineID"/>
-  <table class="forma">
-    <tr><th></th><td><input type="submit" th:value="#{general.text.delete}"/></td></tr>
-  </table>
-</form>
+
 <br>
 <h3 th:text="#{med.img2}"></h3>
 <br>
 <td><img style="margin-left: 15px" th:src="${medicineCategory.getFIle()}"></td>
+
+
+<br>
+<br>
+
+OVDE URADI KOMENTARE
+
+
 </body>
 </html>

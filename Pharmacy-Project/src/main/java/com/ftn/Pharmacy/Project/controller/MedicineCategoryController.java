@@ -1,10 +1,13 @@
 package com.ftn.Pharmacy.Project.controller;
 
 import com.ftn.Pharmacy.Project.model.MedicineCategory;
+import com.ftn.Pharmacy.Project.model.User;
+import com.ftn.Pharmacy.Project.model.UserRole;
 import com.ftn.Pharmacy.Project.service.IMedicineCategoryService;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -50,15 +53,47 @@ public class MedicineCategoryController implements ServletContextAware {
     }
     
     @GetMapping
-    public ModelAndView index() {
-    	List<MedicineCategory> medicineCategories = mcs.findAllMedicineCategories();
+    public ModelAndView index(HttpServletResponse response, HttpServletRequest request) {
+		ModelAndView result1 = new ModelAndView("UserLogin");
+		User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+		if (loggedUser == null) {
+
+
+			return result1;
+
+
+		}
+		if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+		{
+
+
+			return result1;
+
+		}
+		List<MedicineCategory> medicineCategories = mcs.findAllMedicineCategories();
     	ModelAndView result = new ModelAndView("medicineCategories");
     	result.addObject("medicineCategories", medicineCategories);
     	return result;
     }
     
     @GetMapping(value="/add")
-    public ModelAndView create() {
+    public ModelAndView create(HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView result1 = new ModelAndView("UserLogin");
+		User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+		if (loggedUser == null) {
+
+
+			return result1;
+
+
+		}
+		if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+		{
+
+
+			return result1;
+
+		}
     	List<MedicineCategory> medicineCategories = mcs.findAllMedicineCategories();
     	ModelAndView result = new ModelAndView("addMedicineCategory");
     	result.addObject("medicineCategories", medicineCategories);
@@ -66,7 +101,22 @@ public class MedicineCategoryController implements ServletContextAware {
     }
     
     @PostMapping(value="/add")
-    public void create(@RequestParam String medicineName, @RequestParam String medicinePurpose, @RequestParam String medicineDescription, HttpServletResponse response) throws IOException{
+    public void create(HttpServletRequest request,@RequestParam String medicineName, @RequestParam String medicinePurpose, @RequestParam String medicineDescription, HttpServletResponse response) throws IOException{
+		User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+		if (loggedUser == null) {
+
+			response.sendRedirect(bURL + "LogInLogOut/login");
+			return;
+
+
+		}
+		if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+		{
+
+			response.sendRedirect(bURL + "LogInLogOut/login");
+			return;
+
+		}
 		List<MedicineCategory> allCategories = mcs.findAllMedicineCategories();
     	MedicineCategory medicineCategory = new MedicineCategory(medicineName, medicinePurpose, medicineDescription,false);
 
@@ -87,8 +137,23 @@ public class MedicineCategoryController implements ServletContextAware {
     
     
 	@PostMapping(value="/edit")
-	public void Edit(@RequestParam Long medicineID, @RequestParam String medicineName, @RequestParam String medicinePurpose,  
-			@RequestParam String medicineDescription, HttpServletResponse response) throws IOException {	
+	public void Edit(HttpServletRequest request,@RequestParam Long medicineID, @RequestParam String medicineName, @RequestParam String medicinePurpose,
+			@RequestParam String medicineDescription, HttpServletResponse response) throws IOException {
+		User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+		if (loggedUser == null) {
+
+			response.sendRedirect(bURL + "LogInLogOut/login");
+			return;
+
+
+		}
+		if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+		{
+
+			response.sendRedirect(bURL + "LogInLogOut/login");
+			return;
+
+		}
     	MedicineCategory medicineCategory = mcs.findOneMedicineCategoryByID(medicineID);
 		if(medicineCategory != null) {
     		if(medicineName != null && !medicineName.trim().equals("")) {
@@ -107,7 +172,22 @@ public class MedicineCategoryController implements ServletContextAware {
     
     @SuppressWarnings("unused")
 	@PostMapping(value="/delete")
-	public void delete(Long medicineID, HttpServletResponse response) throws IOException {		
+	public void delete(Long medicineID, HttpServletResponse response,HttpServletRequest request) throws IOException {
+		User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+		if (loggedUser == null) {
+
+			response.sendRedirect(bURL + "LogInLogOut/login");
+			return;
+
+
+		}
+		if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+		{
+
+			response.sendRedirect(bURL + "LogInLogOut/login");
+			return;
+
+		}
 		MedicineCategory deleted = mcs.findOneMedicineCategoryByID(medicineID);
 		if( deleted.getDeleted() == false)
 		{
@@ -121,7 +201,23 @@ public class MedicineCategoryController implements ServletContextAware {
     
     @GetMapping(value="/details")
 	@ResponseBody
-	public ModelAndView details(Long id) {	
+	public ModelAndView details(Long id,HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView result1 = new ModelAndView("UserLogin");
+		User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+		if (loggedUser == null) {
+
+
+			return result1;
+
+
+		}
+		if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+		{
+
+
+			return result1;
+
+		}
 		MedicineCategory medicineCategory = mcs.findOneMedicineCategoryByID(id);
 		ModelAndView result = new ModelAndView("medicineCategory");
 		result.addObject("medicineCategory", medicineCategory);

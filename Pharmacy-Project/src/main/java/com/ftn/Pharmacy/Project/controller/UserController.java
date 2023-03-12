@@ -134,15 +134,52 @@ public class UserController implements ServletContextAware {
 
 
 	}
+	@GetMapping(value = "/myprofile")
+	@ResponseBody
+	public ModelAndView myprofile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		ModelAndView result = new ModelAndView("UserLogin");
+		User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+		if (loggedUser == null) {
 
+			return result;
+
+
+		}
+
+		User users = userService.findOne(loggedUser.getUserID());
+		ModelAndView result1 = new ModelAndView("MyProfile");
+		result1.addObject("User", users);
+		result1.addObject("user",loggedUser);
+
+
+		return result1;
+
+
+
+	}
 	@PostMapping(value = "/edit")
-	public void edit(@RequestParam(required = true) String id,@RequestParam(required = true) String username,
+	public void edit(HttpServletRequest request,HttpServletResponse response,@RequestParam(required = true) String id,@RequestParam(required = true) String username,
 						 @RequestParam(required = true) String pass, @RequestParam(required = true) String email,
 						 @RequestParam(required = true) String name, @RequestParam(required = true) String surname,
 						 @RequestParam(required = true) String bdate, @RequestParam(required = true) String street,
 						 @RequestParam(required = true) String streetnum, @RequestParam(required = true) String city,
 						 @RequestParam(required = true) String country, @RequestParam(required = true) String Phone,HttpSession session, HttpServletResponse res) throws IOException {
 
+		User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+		if (loggedUser == null) {
+
+			response.sendRedirect(baseURL + "LogInLogOut/login");
+			return;
+
+
+		}
+		if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+		{
+
+			response.sendRedirect(baseURL + "LogInLogOut/login");
+			return;
+
+		}
 
 		LocalDate birthDate = LocalDate.parse(bdate);
 
@@ -213,7 +250,22 @@ public class UserController implements ServletContextAware {
 		return result1;
 	}
 	@PostMapping(value="/delete")
-	public void delete(Long id, HttpServletResponse response) throws IOException {
+	public void delete(HttpServletRequest request,Long id, HttpServletResponse response) throws IOException {
+		User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+		if (loggedUser == null) {
+
+			response.sendRedirect(baseURL + "LogInLogOut/login");
+			return;
+
+
+		}
+		if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+		{
+
+			response.sendRedirect(baseURL + "LogInLogOut/login");
+			return;
+
+		}
 		User deleted = userService.findOne(id);
 		if( deleted.isDeleted() == false)
 		{

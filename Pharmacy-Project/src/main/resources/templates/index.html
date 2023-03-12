@@ -15,6 +15,19 @@
 </ul>
 <h1 th:text="#{general.text.welcome}"></h1>
 
+<div th:if="${log?.getName() != null}">
+	<ul>
+		<li><a href="users/myprofile" th:text="#{My.Profile}"></a></li>
+	</ul>
+	<form action="LogInLogOut/logout" method="get" >
+		<input type="submit"  th:value="#{general.text.logout}"/>
+	</form>
+</div>
+
+
+
+
+
 <a href="/PharmacyProject/LogInLogOut/register" th:text="#{general.text.signup}"></a><br/>
 <a href="/PharmacyProject/LogInLogOut/login" th:text="#{general.text.login}"></a><br/>
 <a href="/PharmacyProject/Medicine/changeLang?jezik=en" th:text="#{general.text.chlengen}"></a><br/>

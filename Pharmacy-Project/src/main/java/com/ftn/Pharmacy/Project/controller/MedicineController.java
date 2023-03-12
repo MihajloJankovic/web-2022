@@ -6,6 +6,7 @@ import com.ftn.Pharmacy.Project.dao.impl.OrderDAO;
 import com.ftn.Pharmacy.Project.model.*;
 import com.ftn.Pharmacy.Project.service.IMedicineCategoryService;
 import com.ftn.Pharmacy.Project.service.MedicineService;
+import com.ftn.Pharmacy.Project.service.implementation.CommentService;
 import com.ftn.Pharmacy.Project.service.implementation.Manucfecturere;
 import com.ftn.Pharmacy.Project.service.implementation.OrderService;
 
@@ -61,6 +62,8 @@ public class MedicineController  implements ServletContextAware {
     @Autowired
     private OrderService ord;
     @Autowired
+    private CommentService CommentS;
+    @Autowired
     HttpSession sesija;
     @Autowired
     private IMedicineCategoryService mcs;
@@ -93,7 +96,7 @@ public class MedicineController  implements ServletContextAware {
 
 
         }
-        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        if(loggedUser.getRole() == UserRole.CUSTOMER)
         {
 
 
@@ -180,7 +183,7 @@ public class MedicineController  implements ServletContextAware {
 
 
         }
-        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        if(loggedUser.getRole() != UserRole.CUSTOMER)
         {
 
             response.sendRedirect(bURL + "LogInLogOut/login");
@@ -208,7 +211,7 @@ public class MedicineController  implements ServletContextAware {
 
 
         }
-        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        if(loggedUser.getRole() == UserRole.CUSTOMER)
         {
 
             response.sendRedirect(bURL + "LogInLogOut/login");
@@ -375,7 +378,22 @@ public class MedicineController  implements ServletContextAware {
     }
 
     @PostMapping(value="/edit")
-    public void Edit(@RequestParam String medicineName,@RequestParam long id, @RequestParam String Description, @RequestParam String Contraindications, @RequestParam String type, @RequestParam String medicineCategory, @RequestParam int NumberofItems, @RequestParam int price, @RequestParam String manufecturer, HttpServletResponse response) throws IOException {
+    public void Edit(@RequestParam String medicineName,@RequestParam long id, @RequestParam String Description, @RequestParam String Contraindications, @RequestParam String type, @RequestParam String medicineCategory, @RequestParam int NumberofItems, @RequestParam int price, @RequestParam String manufecturer, HttpServletResponse response,HttpServletRequest request) throws IOException {
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+        }
        Manucfecturer man = new Manucfecturer();
        man = mab.findOneByName(manufecturer);
         Medicine medicine = new Medicine(id,medicineName,Description,Contraindications, Type.valueOf(type),mcs.findOneMedicineCategoryByName(medicineCategory),NumberofItems,price,man);
@@ -386,8 +404,23 @@ public class MedicineController  implements ServletContextAware {
 
     @SuppressWarnings("unused")
     @PostMapping(value="/delete")
-    public void delete(Long medicineID, HttpServletResponse response) throws IOException {
-       medicineService.delete(medicineID);
+    public void delete(Long medicineID, HttpServletResponse response,HttpServletRequest request) throws IOException {
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+        }
+        medicineService.delete(medicineID);
         response.sendRedirect(bURL+"Medicine");
     }
     @GetMapping("changeLang")
@@ -404,18 +437,48 @@ public class MedicineController  implements ServletContextAware {
     }
     @GetMapping(value="/details")
     @ResponseBody
-    public ModelAndView details(Long id) {
+    public ModelAndView details(Long id,HttpServletRequest request,HttpServletResponse response) {
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+
+            return result;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        {
+
+
+            return result;
+
+        }
         Medicine medicineCategory = medicineService.findOne(id);
         List<Manucfecturer> mann = mab.findAll();
         List<MedicineCategory> cat = mcs.findAllMedicineCategories();
-        ModelAndView result = new ModelAndView("DetailsM");
+        ModelAndView result1 = new ModelAndView("DetailsM");
+        result1.addObject("medicineCategory", medicineCategory);
+        result1.addObject("Man", mann);
+        result1.addObject("tip",Type.values());
+        result1.addObject("kat",cat);
+        return result1;
+    }
+    @GetMapping(value="/detailsU")
+    @ResponseBody
+    public ModelAndView detailss(Long id) {
+        List<Comment> coms = CommentS.getComments();
+        Medicine medicineCategory = medicineService.findOne(id);
+        List<Manucfecturer> mann = mab.findAll();
+        List<MedicineCategory> cat = mcs.findAllMedicineCategories();
+        ModelAndView result = new ModelAndView("MedicineDetailsUser");
         result.addObject("medicineCategory", medicineCategory);
         result.addObject("Man", mann);
         result.addObject("tip",Type.values());
         result.addObject("kat",cat);
+        result.addObject("coms",coms);
         return result;
     }
-
 
     @Override
     public void setServletContext(ServletContext servletContext) {
