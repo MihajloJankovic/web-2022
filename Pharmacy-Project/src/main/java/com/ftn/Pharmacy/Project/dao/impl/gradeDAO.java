@@ -22,6 +22,7 @@ import java.util.Map;
 
 @Repository
 public class gradeDAO {
+
     private final JdbcTemplate jdbcTemplate;
 
     public gradeDAO(JdbcTemplate jdbcTemplate) {
@@ -68,7 +69,7 @@ public class gradeDAO {
 
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                String sql = "insert into grade(id,grade) values (?, ?)";
+                String sql = "insert into grade (id,gradee) values (?, ?)";
 
                 PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 int index = 1;

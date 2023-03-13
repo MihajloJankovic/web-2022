@@ -217,7 +217,7 @@ public class UserController implements ServletContextAware {
 		ModelAndView result1 = new ModelAndView("UserDetails");
 		result1.addObject("User", users);
 		result1.addObject("user",loggedUser);
-		result1.addObject("kat",UserRole.values());
+		result1.addObject("kat",UserRole.ADMINISTRATOR);
 
 		return result1;
 

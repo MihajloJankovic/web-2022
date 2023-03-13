@@ -1,6 +1,8 @@
 package com.ftn.Pharmacy.Project.dao.impl;
 
 import com.ftn.Pharmacy.Project.model.Comment;
+import com.ftn.Pharmacy.Project.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowCallbackHandler;
@@ -10,14 +12,16 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
 public class Commentdao {
-
+    @Autowired
+    private UserDAOimpl userdao;
     private final JdbcTemplate jdbcTemplate;
 
     public Commentdao(JdbcTemplate jdbcTemplate) {
@@ -34,17 +38,17 @@ public class Commentdao {
             Long id = rs.getLong(index++);
             String tekst = rs.getString(index++);
             int grade = rs.getInt(index++);
-            Date date = rs.getDate(index++);
+            LocalDate date = rs.getDate(index++).toLocalDate();
             int author = rs.getInt(index++);
             int medicine = rs.getInt(index++);
             boolean anonimus = rs.getBoolean(index++);
+            User author1 = userdao.findOne(Long.valueOf(author));
 
 
 
 
 
-
-            Comment com = new Comment(id,tekst,grade,date,author,medicine,anonimus);
+            Comment com = new Comment(id,tekst,grade,date,author1,medicine,anonimus);
 
             comentMap.put(com,com);
         }
@@ -64,12 +68,12 @@ public class Commentdao {
         jdbcTemplate.query(sql, rowCallbackHandler,id);
         return rowCallbackHandler.getMan().get(0);
     }
-    public List<Comment> getComments()
+    public List<Comment> getComments(Long id)
     {
-        String sql = "select * from pharmacy.comments";
+        String sql = "select * from pharmacy.comments where medicine = ?";
 
         Commentdao.gradeRowCallBackHandler rowCallbackHandler = new Commentdao.gradeRowCallBackHandler();
-        jdbcTemplate.query(sql, rowCallbackHandler);
+        jdbcTemplate.query(sql, rowCallbackHandler,id);
         return rowCallbackHandler.getMan();
     }
     public int save(Comment com) {
@@ -77,7 +81,7 @@ public class Commentdao {
 
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                String sql = "insert into comments(text,grade,datee,author,medicine,anoniums) values (?, ?,?, ?,?, ?)";
+                String sql = "insert into comments(text,grade,datee,author,medicine,anonimus) values (?, ?,?, ?,?, ?)";
 
                 PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 int index = 1;
@@ -86,7 +90,7 @@ public class Commentdao {
               preparedStatement.setString(index++,com.getText());
                 preparedStatement.setInt(index++, com.getGrade());
                 preparedStatement.setString(index++,com.getDate().toString());
-                preparedStatement.setInt(index++, com.getAutor());
+                preparedStatement.setInt(index++, Math.toIntExact(com.getAutor().getUserID()));
                 preparedStatement.setInt(index++, com.getMedicine());
                 preparedStatement.setBoolean(index++,com.isAnonimus());
 

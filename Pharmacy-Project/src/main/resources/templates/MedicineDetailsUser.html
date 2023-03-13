@@ -52,7 +52,27 @@
 <br>
 <br>
 
-OVDE URADI KOMENTARE
+<div>
+  <form action="Medicine/addComment" method="post" >
+    <input type="hidden" name="med" th:value="${medicineCategory.getId()}">
+    <input type="range" id="points" name="points" min="1" max="5">
+    <input type="text" MINLENGTH="5" maxlength="100" name="com">
+    <input type="checkbox" name="ano">
+    <input type="submit" th:value="#{Addmedicine.text.button}"/>
+  </form>
+</div>
+<div>
+  <table>
+
+<caption th:text="#{Coms}"></caption>
+
+    <tr th:each="itcoms, status: ${coms}">
+      <td><label th:text="#{details.user}"></label> <input type="text" readonly th:value="${itcoms.isAnonimus()} ? 'Anoniumus' : ${itcoms.getAutor().getUsername()}"></td>
+      <td><label th:text="#{cOMM}"></label> <input type="text" readonly th:value="${itcoms.getText()}"></td>
+      <td><label th:text="#{grade}"></label> <input type="number" readonly th:value="${itcoms.getGrade()}"></td>
+    </tr>
+  </table>
+</div>
 
 
 </body>

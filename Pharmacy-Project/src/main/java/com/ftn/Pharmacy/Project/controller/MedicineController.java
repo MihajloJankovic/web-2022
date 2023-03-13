@@ -10,6 +10,7 @@ import com.ftn.Pharmacy.Project.service.implementation.CommentService;
 import com.ftn.Pharmacy.Project.service.implementation.Manucfecturere;
 import com.ftn.Pharmacy.Project.service.implementation.OrderService;
 
+
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,12 +32,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Date;
 
 import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
 
@@ -402,6 +406,34 @@ public class MedicineController  implements ServletContextAware {
         response.sendRedirect(servletContext.getContextPath() + "/Medicine");
     }
 
+    @PostMapping(value="/addComment")
+    public void Edit(@RequestParam int med,@RequestParam int points, @RequestParam String com,@RequestParam(required = false) Boolean ano, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
+        }
+        if(ano == null)
+        {
+            ano = false;
+        }
+        LocalDate date = LocalDate.now();
+
+        Comment pera = new Comment(com,points,date,loggedUser,med,ano);
+        CommentS.save(pera);
+
+        response.setHeader("Refresh", "0; URL="+ request.getContextPath());
+    }
     @SuppressWarnings("unused")
     @PostMapping(value="/delete")
     public void delete(Long medicineID, HttpServletResponse response,HttpServletRequest request) throws IOException {
@@ -467,7 +499,7 @@ public class MedicineController  implements ServletContextAware {
     @GetMapping(value="/detailsU")
     @ResponseBody
     public ModelAndView detailss(Long id) {
-        List<Comment> coms = CommentS.getComments();
+        List<Comment> coms = CommentS.getComments(id);
         Medicine medicineCategory = medicineService.findOne(id);
         List<Manucfecturer> mann = mab.findAll();
         List<MedicineCategory> cat = mcs.findAllMedicineCategories();

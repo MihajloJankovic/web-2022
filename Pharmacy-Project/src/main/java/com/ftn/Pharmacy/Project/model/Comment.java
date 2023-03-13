@@ -1,20 +1,26 @@
 package com.ftn.Pharmacy.Project.model;
 
+import com.ftn.Pharmacy.Project.dao.impl.UserDAOimpl;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Comment {
+
     Long id;
     String text;
     int grade;
-    Date date;
-    int autor;
+    LocalDate date;
+    User autor;
     int medicine;
     boolean anonimus;
 
     public Comment() {
     }
 
-    public Comment(String text, int grade, Date date, int autor, int medicine, boolean anonimus) {
+    public Comment(String text, int grade, LocalDate date, User autor, int medicine, boolean anonimus) {
+
         this.text = text;
         this.grade = grade;
         this.date = date;
@@ -23,7 +29,7 @@ public class Comment {
         this.anonimus = anonimus;
     }
 
-    public Comment(Long id, String text, int grade, Date date, int autor, int medicine, boolean anonimus) {
+    public Comment(Long id, String text, int grade, LocalDate date, User autor, int medicine, boolean anonimus) {
         this.id = id;
         this.text = text;
         this.grade = grade;
@@ -49,19 +55,19 @@ public class Comment {
         this.grade = grade;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public int getAutor() {
+    public User getAutor() {
         return autor;
     }
 
-    public void setAutor(int autor) {
+    public void setAutor(User autor) {
         this.autor = autor;
     }
 

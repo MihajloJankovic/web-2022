@@ -15,9 +15,9 @@ public class CommentService {
     private Commentdao ComDao;
 
 
-    public List<Comment> getComments()
+    public List<Comment> getComments(Long id)
     {
-        return ComDao.getComments();
+        return ComDao.getComments(id);
     }
     public Comment getComment(Long id)
     {

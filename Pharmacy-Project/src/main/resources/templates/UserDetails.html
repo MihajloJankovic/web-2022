@@ -41,11 +41,13 @@
     <tr><th></th><td><input type="submit" th:value="#{general.text.save}"/></td></tr>
   </table>
     </form>
-<form method="post" action="users/delete">
-  <input type="hidden" th:value="${user.getUserID()}" name="id"/>
-  <table class="forma">
-    <tr><th></th><td><input type="submit" th:value="#{general.text.delete1  }"/></td></tr>
-  </table>
-</form>
+<div th:if="${User.getRole()} != ${kat}">
+  <form method="post"  action="users/delete">
+    <input type="hidden" th:value="${user.getUserID()}" name="id"/>
+    <table class="forma">
+      <tr><th></th><td><input type="submit" th:value="#{general.text.delete1}"/></td></tr>
+    </table>
+  </form>
+</div>
 </body>
 </html>
