@@ -36,11 +36,7 @@ import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Date;
+import java.util.*;
 
 import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
 
@@ -113,7 +109,282 @@ public class MedicineController  implements ServletContextAware {
         result1.addObject("medicineCategories", medicineCategories);
         return result1;
     }
+    @GetMapping(value = "shop")
+    public ModelAndView shop(HttpServletResponse response,HttpServletRequest request) {
 
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+
+
+
+        List<Medicine> medicineCategories = medicineService.findAllForShop();
+        ModelAndView result1 = new ModelAndView("shop");
+        result1.addObject("medicineCategories", medicineCategories);
+        result1.addObject("log",loggedUser);
+        return result1;
+    }
+    @GetMapping(value = "addcart")
+    public ModelAndView cart(@RequestParam Long id,HttpServletResponse response,HttpServletRequest request,HttpSession ses) throws IOException {
+
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+
+            return result;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.CUSTOMER)
+        {
+
+            return result;
+
+        }
+
+        Map<Long, Integer> meds = new LinkedHashMap<>();
+
+        if(ses.getAttribute("mapa")!=null)
+        {
+            meds = (Map<Long, Integer>) request.getSession().getAttribute("mapa");
+
+
+              if(meds.get(id)!=null)
+              {
+                  int p = meds.get(id);
+                  meds.put(id,p+1);
+              }
+              else {
+
+                  meds.put(id,1);
+              }
+                ses.setAttribute("mapa",meds);
+        }
+        else {
+            meds.put(id,1);
+            ses.setAttribute("mapa",meds);
+        }
+
+        List<Medicine> medicineCategories = medicineService.findAllForShop();
+        ModelAndView result1 = new ModelAndView("shop");
+        result1.addObject("medicineCategories", medicineCategories);
+        result1.addObject("log",loggedUser);
+        return result1;
+    }
+    @PostMapping(value = "SaveCart")
+    public ModelAndView cart1(@RequestBody String json,HttpServletResponse response,HttpServletRequest request,HttpSession ses) throws IOException {
+
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+
+            return result;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.CUSTOMER)
+        {
+
+            return result;
+
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String,Integer> map = mapper.readValue(json, Map.class);
+        Map<Long, Integer> meds = new LinkedHashMap<>();
+        if(ses.getAttribute("mapa")!=null)
+        {
+            meds = (Map<Long, Integer>) request.getSession().getAttribute("mapa");
+            for(String a : map.keySet())
+            {
+                meds.put(Long.valueOf(a),map.get(a));
+            }
+            ses.setAttribute("mapa",meds);
+        }
+
+
+
+        List<Medicine> medicineCategories = medicineService.findAllForShop();
+        ModelAndView result1 = new ModelAndView("shop");
+        result1.addObject("medicineCategories", medicineCategories);
+        result1.addObject("log",loggedUser);
+        return result1;
+    }
+    @GetMapping(value = "addwish")
+    public ModelAndView wish(@RequestParam Long id,HttpServletResponse response,HttpServletRequest request,HttpSession ses) throws IOException {
+
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+
+            return result;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.CUSTOMER)
+        {
+
+            return result;
+
+        }
+
+        Map<Long, Integer> meds = new LinkedHashMap<>();
+
+        if(ses.getAttribute("mapa1")!=null)
+        {
+            meds = (Map<Long, Integer>) request.getSession().getAttribute("mapa1");
+
+                meds.put(id,1);
+
+            ses.setAttribute("mapa1",meds);
+        }
+        else {
+            meds.put(id,1);
+            ses.setAttribute("mapa1",meds);
+        }
+
+        List<Medicine> medicineCategories = medicineService.findAllForShop();
+        ModelAndView result1 = new ModelAndView("shop");
+        result1.addObject("medicineCategories", medicineCategories);
+        result1.addObject("log",loggedUser);
+        return result1;
+    }
+    @GetMapping(value = "removewish")
+    public ModelAndView wishremove(@RequestParam Long id,HttpServletResponse response,HttpServletRequest request,HttpSession ses) throws IOException {
+
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+
+            return result;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.CUSTOMER)
+        {
+
+            return result;
+
+        }
+
+        Map<Long, Integer> meds = new LinkedHashMap<>();
+        List<Medicine> medicineCategories = new ArrayList<Medicine>();
+        if(ses.getAttribute("mapa1")!=null)
+        {
+            meds = (Map<Long, Integer>) request.getSession().getAttribute("mapa1");
+
+            meds.remove(id,1);
+
+            ses.setAttribute("mapa1",meds);
+
+            for (Long a:meds.keySet())
+            {
+                Medicine lek = medicineService.findOne(a);
+                medicineCategories.add(lek);
+            }
+        }
+
+        ModelAndView result1 = new ModelAndView("wiches");
+        result1.addObject("medicineCategories", medicineCategories);
+        result1.addObject("log",loggedUser);
+        return result1;
+
+    }
+    @GetMapping(value = "wishList")
+    public ModelAndView wish(HttpServletResponse response,HttpServletRequest request,HttpSession ses) throws IOException {
+
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+
+            return result;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.CUSTOMER)
+        {
+
+            return result;
+
+        }
+
+        Map<Long, Integer> meds = new LinkedHashMap<>();
+
+        if(ses.getAttribute("mapa1")!=null)
+        {
+            meds = (Map<Long, Integer>) request.getSession().getAttribute("mapa1");
+            List<Medicine> medicineCategories = new ArrayList<Medicine>();
+            for (Long a:meds.keySet())
+            {
+                Medicine lek = medicineService.findOne(a);
+                medicineCategories.add(lek);
+            }
+            ModelAndView result1 = new ModelAndView("wiches");
+            result1.addObject("medicineCategories", medicineCategories);
+            result1.addObject("log",loggedUser);
+            return result1;
+
+        }
+        else {
+            List<Medicine> medicineCategories = new ArrayList<Medicine>();
+            ModelAndView result1 = new ModelAndView("wiches");
+            result1.addObject("medicineCategories", medicineCategories);
+            result1.addObject("log",loggedUser);
+            return result1;
+        }
+    }
+    @GetMapping(value = "Cart")
+    public ModelAndView Cart(HttpServletResponse response,HttpServletRequest request,HttpSession ses) throws IOException {
+
+        ModelAndView result = new ModelAndView("UserLogin");
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+
+            return result;
+
+
+        }
+        if(loggedUser.getRole() != UserRole.CUSTOMER)
+        {
+
+            return result;
+
+        }
+
+        Map<Long, Integer> meds = new LinkedHashMap<>();
+
+        if(ses.getAttribute("mapa")!=null)
+        {
+            meds = (Map<Long, Integer>) request.getSession().getAttribute("mapa");
+            List<Medicine> medicineCategories = new ArrayList<Medicine>();
+            List<Integer> brojevi = new ArrayList<Integer>();
+            for (Long a:meds.keySet())
+            {
+                Medicine lek = medicineService.findOne(a);
+                medicineCategories.add(lek);
+                brojevi.add(meds.get(a));
+            }
+            ModelAndView result1 = new ModelAndView("cart");
+            result1.addObject("medicineCategories", medicineCategories);
+            result1.addObject("nums",brojevi);
+            result1.addObject("log",loggedUser);
+            return result1;
+
+        }
+        else {
+            List<Integer> brojevi = new ArrayList<Integer>();
+            List<Medicine> medicineCategories = new ArrayList<Medicine>();
+            ModelAndView result1 = new ModelAndView("cart");
+            result1.addObject("medicineCategories", medicineCategories);
+            result1.addObject("nums",brojevi);
+            result1.addObject("log",loggedUser);
+            return result1;
+        }
+    }
     @GetMapping(value="/add")
     public ModelAndView create(HttpServletRequest request,HttpServletResponse response) throws IOException {
         ModelAndView result = new ModelAndView("UserLogin");
@@ -187,7 +458,7 @@ public class MedicineController  implements ServletContextAware {
 
 
         }
-        if(loggedUser.getRole() != UserRole.CUSTOMER)
+        if(loggedUser.getRole() != UserRole.PHARMACIST)
         {
 
             response.sendRedirect(bURL + "LogInLogOut/login");
@@ -215,7 +486,7 @@ public class MedicineController  implements ServletContextAware {
 
 
         }
-        if(loggedUser.getRole() == UserRole.CUSTOMER)
+        if(loggedUser.getRole() != UserRole.PHARMACIST)
         {
 
             response.sendRedirect(bURL + "LogInLogOut/login");
@@ -248,7 +519,7 @@ public class MedicineController  implements ServletContextAware {
 
 
         }
-        if(loggedUser.getRole() == UserRole.CUSTOMER)
+        if(loggedUser.getRole() != UserRole.PHARMACIST)
         {
 
             response.sendRedirect(bURL + "LogInLogOut/login");
@@ -277,7 +548,7 @@ public class MedicineController  implements ServletContextAware {
 
 
         }
-        if(loggedUser.getRole() == UserRole.CUSTOMER )
+        if(loggedUser.getRole() != UserRole.PHARMACIST )
         {
 
             response.sendRedirect(bURL + "LogInLogOut/login");
@@ -406,8 +677,8 @@ public class MedicineController  implements ServletContextAware {
         response.sendRedirect(servletContext.getContextPath() + "/Medicine");
     }
 
-    @PostMapping(value="/addComment")
-    public void Edit(@RequestParam int med,@RequestParam int points, @RequestParam String com,@RequestParam(required = false) Boolean ano, HttpServletResponse response, HttpServletRequest request) throws IOException {
+    @PostMapping(value="/aprv")
+    public void Edit(@RequestParam Long aprv,HttpServletResponse response,HttpServletRequest request) throws IOException {
         User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
         if (loggedUser == null) {
 
@@ -416,11 +687,29 @@ public class MedicineController  implements ServletContextAware {
 
 
         }
-        if(loggedUser.getRole() != UserRole.ADMINISTRATOR)
+        if(loggedUser.getRole() != UserRole.PHARMACIST)
         {
 
             response.sendRedirect(bURL + "LogInLogOut/login");
             return;
+
+        }
+
+        Medicine medicine = medicineService.findOne(aprv);
+        medicine.setApproved(true);
+
+        medicineService.update2(medicine);
+        response.sendRedirect(servletContext.getContextPath() + "/Medicine");
+    }
+
+    @PostMapping(value="/addComment")
+    public void Edit(@RequestParam int med,@RequestParam int points, @RequestParam String com,@RequestParam(required = false) Boolean ano, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
+        if (loggedUser == null) {
+
+            response.sendRedirect(bURL + "LogInLogOut/login");
+            return;
+
 
         }
         if(ano == null)
@@ -498,7 +787,8 @@ public class MedicineController  implements ServletContextAware {
     }
     @GetMapping(value="/detailsU")
     @ResponseBody
-    public ModelAndView detailss(Long id) {
+    public ModelAndView detailss(Long id,HttpServletRequest request) {
+        User loggedUser = (User) request.getSession().getAttribute(LogInLogOutController.USER_KEY);
         List<Comment> coms = CommentS.getComments(id);
         Medicine medicineCategory = medicineService.findOne(id);
         List<Manucfecturer> mann = mab.findAll();
@@ -509,6 +799,7 @@ public class MedicineController  implements ServletContextAware {
         result.addObject("tip",Type.values());
         result.addObject("kat",cat);
         result.addObject("coms",coms);
+        result.addObject("log",loggedUser);
         return result;
     }
 

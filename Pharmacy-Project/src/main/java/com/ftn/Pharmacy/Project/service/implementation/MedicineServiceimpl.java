@@ -17,7 +17,10 @@ public class MedicineServiceimpl {
         return medicineDao.findOne(id);
     }
 
-
+    public int update2(Medicine medicine)
+    {
+        return medicineDao.update2(medicine);
+    }
     public List<Medicine> findAllMedicine() {
         return medicineDao.findAll();
     }
@@ -36,7 +39,10 @@ public class MedicineServiceimpl {
         medicineDao.update(mc);
         return mc;
     }
-
+    public List<Medicine> findAllForShop()
+    {
+       return medicineDao.findAllForShop();
+    }
 
     public Medicine deleteMedicine(Long id) {
         Medicine medicine = medicineDao.findOne(id);

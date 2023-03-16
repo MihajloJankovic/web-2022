@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <base th:href="@{/}">
+  <link rel="stylesheet"  type="text/css"  href="css/TableStyles.css"/>
+  <link rel="stylesheet"  type="text/css" href="css/HorizontalMenuStyles.css"/>
+  <title>Wish List</title>
+</head>
+<body>
+<div th:if="${log?.getName() != null}">
+  <ul>
+    <li><a href="users/myprofile" th:text="#{My.Profile}"></a></li>
+  </ul>
+  <form action="LogInLogOut/logout" method="get" >
+    <input type="submit"  th:value="#{general.text.logout}"/>
+  </form>
+  <ul>
+    <li><a href="Medicine/shop" th:text="#{sh}"></a></li>
+  </ul>
+</div>
+
+<table id="myTable2">
+  <caption th:text="#{capsa}"></caption>
+  <tr>
+    <th  th:text="#{Medicine.text.id}"></th>
+    <th th:text="#{Medicine.text.name}"></th>
+    <th  th:text="#{details.text.Grade}"></th>
+    <th th:text="#{Medicine.text.Price}"></th>
+    <th th:text="#{details.text.Type}"></th>
+    <th th:text="#{details.text.Manufecturer}"></th>
+    <th th:text="#{med.img}"> </th>
+    <th th:text="#{Number.a}"></th>
+    <th></th>
+  </tr>
+  <tr th:each="itMedicineCategory, status: ${medicineCategories}">
+    <td th:text="${(status.index + 1)+'.'}"></td>
+    <td > <a th:href="'Medicine/detailsU?id='+${itMedicineCategory.getId()}" th:text="${itMedicineCategory.getName()}"> </a></td>
+    <td th:text="${itMedicineCategory.getGrade()}"></td>
+    <td th:text="${itMedicineCategory.getPrice()}"></td>
+    <td th:text="${itMedicineCategory.getType().toString()}"></td>
+    <td th:text="${itMedicineCategory.getManufecturer().getName()}"></td>
+    <td><img th:src="${itMedicineCategory.getFIle()}"></td>
+    <td><form onsubmit="return false;"><input th:id="${itMedicineCategory.getId()}" type="number" name="number" min="1" max="10" th:value="${nums.get(status.index)}"></form></td>
+    <div>
+      <td><a th:href="'Medicine/removeCart?id='+${itMedicineCategory.getId()}"><button th:text="#{kick}"></button></a></td>
+    </div>
+</table>
+<button onclick="Savee()" th:text="#{general.text.save}"></button>
+<button ></button>
+<script src="js/Java.js"></script>
+</body>
+</html>

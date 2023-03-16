@@ -14,12 +14,13 @@
   <li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
   <li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
 </ul>
-<ul>
-  <li><a href="users/myprofile" th:text="#{My.Profile}"></a></li>
-</ul>
+
+<div th:if="${log?.getName() != null}">
 <form action="LogInLogOut/logout" method="get" >
+  <a href="users/myprofile" th:text="#{My.Profile}"></a>
   <input type="submit"  th:value="#{general.text.logout}"/>
 </form>
+</div>
 <form>
 
   <table class="forma">
@@ -28,13 +29,13 @@
     <tr><th th:text="#{details.text.name}"></th><td><input type="text" required readonly th:value="${medicineCategory.getName()}" name="medicineName"/></td></tr>
     <tr><th th:text="#{details.text.Description}"></th><td><input type="text" required readonly th:value="${medicineCategory.getDescription()}" name="Description"/></td></tr>
     <tr><th th:text="#{details.text.Contraindications}"></th><td><input type="text" required readonly th:value="${medicineCategory.getContraindications()}" name="Contraindications"/></td></tr>
-    <tr><th th:text="#{details.text.Type}"></th><td><select disabled required name="type" >
+    <tr><th th:text="#{details.text.Type}"></th><td><select disabled  required name="type" >
       <option th:each="ittip, status: ${tip}" th:selected="${medicineCategory.getType()} == ${ittip} ? true : false"  th:text="${ittip}" ></option>
     </select></td></tr>
     <tr><th th:text="#{details.text.MedicineCategory}"></th><td><select disabled  required name="medicineCategory" >
       <option th:each="itkat, status: ${kat}" th:selected="${medicineCategory.getMedicineCategory().getMedicineName()} == ${itkat.getMedicineName()} ? true : false"  th:text="${itkat.getMedicineName()}" ></option>
     </select></td></tr>
-    <tr><th th:text="#{details.text.NumberofItems}"></th><td><input  type="number" required th:value="${medicineCategory.getNumberofItems()}" name="NumberofItems"/></td></tr>
+    <tr><th th:text="#{details.text.NumberofItems}"></th><td><input  type="number" readonly required th:value="${medicineCategory.getNumberofItems()}" name="NumberofItems"/></td></tr>
     <tr><th th:text="#{details.text.Price}"></th><td><input readonly type="number" required th:value="${medicineCategory.getPrice()}" name="price"/></td></tr>
     <tr><th th:text="#{details.text.Manufecturer}"></th><td><select disabled  required name = "manufecturer" >
       <option th:each="itMan, status: ${Man}" th:selected="${medicineCategory.getManufecturer().getName()} == ${itMan.getName()} ? true : false"  th:text="${itMan.getName()}"></option>
@@ -52,7 +53,7 @@
 <br>
 <br>
 
-<div>
+<div  th:if="${log?.getName() != null and log?.getRole().toString() == 'CUSTOMER'}">
   <form action="Medicine/addComment" method="post" >
     <input type="hidden" name="med" th:value="${medicineCategory.getId()}">
     <input type="range" id="points" name="points" min="1" max="5">
@@ -61,7 +62,7 @@
     <input type="submit" th:value="#{Addmedicine.text.button}"/>
   </form>
 </div>
-<div>
+<div >
   <table>
 
 <caption th:text="#{Coms}"></caption>

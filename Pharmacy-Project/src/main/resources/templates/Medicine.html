@@ -44,6 +44,7 @@
     <td><img th:src="${itMedicineCategory.getFIle()}"></td>
 
 
+
     <td>
       <form action="Medicine/details" method="get">
         <input type="hidden" id="id" name="id" th:value="|${itMedicineCategory.getId()}|">
@@ -57,6 +58,10 @@
 
 
     </td>
+    <td th:if="${itMedicineCategory.isApproved() == false}"><form action="Medicine/aprv" method="post">
+      <input type="hidden" name="aprv" th:value="${itMedicineCategory.getId()}" />
+      <input type="submit" th:value="#{apr}" />
+    </form></td>
 </table>
 <ul>
   <li><a href = "Medicine/add" th:text="#{Addmedicine.text.button}"></a></li>

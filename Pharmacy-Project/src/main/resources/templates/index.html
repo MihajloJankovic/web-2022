@@ -8,22 +8,46 @@
 	<link rel="stylesheet" type="text/css" href="css/HorizontalMenuStyles.css"/>
 </head>
 <body>
-<ul>
-	<li><a href="users" th:text="#{general.text.users}"></a></li>
-	<li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
-	<li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
-</ul>
+
 <h1 th:text="#{general.text.welcome}"></h1>
 
-<div th:if="${log?.getName() != null}">
+<div th:if="${log?.getName() != null and log.getRole().toString() =='ADMINISTRATOR'}">
 	<ul>
 		<li><a href="users/myprofile" th:text="#{My.Profile}"></a></li>
 	</ul>
 	<form action="LogInLogOut/logout" method="get" >
 		<input type="submit"  th:value="#{general.text.logout}"/>
 	</form>
+	<ul>
+		<li><a href="users/homepage" th:text="#{general.text.users}"></a></li>
+		<li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
+		<li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+	</ul>
 </div>
-
+<div th:if="${log?.getName() != null and log.getRole().toString() =='CUSTOMER'}">
+	<ul>
+		<li><a href="users/myprofile" th:text="#{My.Profile}"></a></li>
+	</ul>
+	<form action="LogInLogOut/logout" method="get" >
+		<input type="submit"  th:value="#{general.text.logout}"/>
+	</form>
+	<ul>
+		<li><a href="Medicine/shop" th:text="#{sh}"></a></li>
+	</ul>
+</div>
+<div th:if="${log?.getName() != null and log.getRole().toString() =='PHARMACIST'}">
+	<ul>
+		<li><a href="users/myprofile" th:text="#{My.Profile}"></a></li>
+	</ul>
+	<form action="LogInLogOut/logout" method="get" >
+		<input type="submit"  th:value="#{general.text.logout}"/>
+	</form>
+	<ul>
+		<li><a href="Medicine/orderfar" th:text="#{order}"></a></li>
+		<li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
+		<li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+	</ul>
+</div>
 
 
 

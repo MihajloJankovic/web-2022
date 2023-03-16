@@ -12,5 +12,7 @@ public interface MedicineService {
     public Medicine updateMedicine(Medicine mc);
     public void Medicinedelete(Long id);
     public Medicine findOneByName(String name);
+    public int update2(Medicine medicine);
+    public List<Medicine> findAllForShop();
 
 }

@@ -106,3 +106,50 @@ function sortTable2(n) {
         }
     }
 }
+const mapa = new Map();
+function Savee()
+{
+    let a=0;
+    let inputi = document.getElementsByName("number");
+    for(let i = 0;i < inputi.length;i++)
+    {
+        if( parseInt(inputi[i].value) < 1 )
+        {
+
+            a = 1;
+            mapa.clear();
+            alert("Number of items cant be less that 1 and more that 10!");
+            break;
+        }
+        if(parseInt(inputi[i].value) > 10) {
+            a = 1;
+            mapa.clear();
+            alert("Number of items cant be less that 1 and more that 10!");
+            break;
+        }
+        mapa.set(inputi[i].id,parseInt(inputi[i].value));
+
+    }
+    if(a==0)
+    {
+
+        const json = JSON.stringify(Object.fromEntries(mapa));
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "Medicine/SaveCart", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log(xhr.responseText);
+                    alert("Successful");
+                    window.location.assign("http://localhost:8080/PharmacyProject/Medicine/shop");
+                } else {
+                    console.error(xhr.statusText);
+                }
+            }
+        };
+        xhr.send(json);
+    }
+
+}

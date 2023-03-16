@@ -91,13 +91,13 @@ public class LogInLogOutController {
 		{
 			if (loggedUser.isLogged() == true)
 			{
-				response.sendRedirect(baseURL + "users/homepage");
+				response.sendRedirect(baseURL);
 				return;
 			}
 
 			if(session.getAttribute(LogInLogOutController.USER_KEY) != null)
 			{
-				response.sendRedirect(baseURL + "users/homepage");
+				response.sendRedirect(baseURL);
 				return;
 
 			}
@@ -106,7 +106,7 @@ public class LogInLogOutController {
 
 			loggedUser.setLogged(true);
 			session.setAttribute(LogInLogOutController.USER_KEY, loggedUser);
-			response.sendRedirect(baseURL + "users/homepage");
+			response.sendRedirect(baseURL);
 			return;
 		}
 

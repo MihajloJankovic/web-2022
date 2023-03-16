@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <base th:href="@{/}">
+  <link rel="stylesheet"  type="text/css"  href="css/TableStyles.css"/>
+  <link rel="stylesheet"  type="text/css" href="css/HorizontalMenuStyles.css"/>
+  <title>Wish List</title>
+</head>
+<body>
+<div th:if="${log?.getName() != null}">
+  <ul>
+    <li><a href="users/myprofile" th:text="#{My.Profile}"></a></li>
+  </ul>
+  <form action="LogInLogOut/logout" method="get" >
+    <input type="submit"  th:value="#{general.text.logout}"/>
+  </form>
+  <ul>
+    <li><a href="Medicine/shop" th:text="#{sh}"></a></li>
+  </ul>
+</div>
+
+<table id="myTable2">
+  <caption th:text="#{capps}"></caption>
+  <tr>
+    <th  onclick="sortTable2(0)" th:text="#{Medicine.text.id}"></th>
+    <th onclick="sortTable(1)" th:text="#{Medicine.text.name}"></th>
+    <th onclick="sortTable2(2)" th:text="#{details.text.Grade}"></th>
+    <th onclick="sortTable2(3)" th:text="#{Medicine.text.Price}"></th>
+
+    <th th:text="#{med.img}"> </th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr th:each="itMedicineCategory, status: ${medicineCategories}">
+    <td th:text="${(status.index + 1)+'.'}"></td>
+   <td > <a th:href="'Medicine/detailsU?id='+${itMedicineCategory.getId()}" th:text="${itMedicineCategory.getName()}"> </a></td>
+    <td th:text="${itMedicineCategory.getGrade()}"></td>
+    <td th:text="${itMedicineCategory.getPrice()}"></td>
+    <td><img th:src="${itMedicineCategory.getFIle()}"></td>
+    <div>
+      <td><a th:href="'Medicine/removewish?id='+${itMedicineCategory.getId()}"><button th:text="#{kick}"></button></a></td>
+    </div>
+</table>
+<script src="js/Java.js"></script>
+</body>
+</html>

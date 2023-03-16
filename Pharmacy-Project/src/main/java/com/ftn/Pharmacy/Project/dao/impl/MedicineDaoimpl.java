@@ -110,6 +110,15 @@ public class MedicineDaoimpl implements MedicineDao{
     }
 
     @Override
+    public List<Medicine> findAllForShop() {
+        String sql = "select * from medicament where approved = 1 and NumberofItems > 0";
+
+        MedicineDaoimpl.MedicineRowCallBackHandler rowCallbackHandler = new MedicineDaoimpl.MedicineRowCallBackHandler();
+        jdbcTemplate.query(sql, rowCallbackHandler);
+        return rowCallbackHandler.getMedicine();
+
+    }
+    @Override
     public List<Medicine> findAll() {
         String sql = "select * from medicament";
 
@@ -118,7 +127,6 @@ public class MedicineDaoimpl implements MedicineDao{
         return rowCallbackHandler.getMedicine();
 
     }
-
     @Transactional
     public int save(Medicine medicine) {
         PreparedStatementCreator preparedStatementCreator = new PreparedStatementCreator() {
@@ -168,7 +176,14 @@ public class MedicineDaoimpl implements MedicineDao{
 
         return success?1:0;
     }
+    @Override
+    public int update2(Medicine medicine) {
+        String sql = "update medicament set approved = ? where id = ?";
+        boolean success = true;
+        success = jdbcTemplate.update(sql,medicine.isApproved(),medicine.getId()) == 1;
 
+        return success?1:0;
+    }
     @Transactional
     @Override
     public int delete(Long id) {
