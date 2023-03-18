@@ -72,6 +72,7 @@ public class UserController implements ServletContextAware {
 		response.sendRedirect(baseURL);
 		return;
 	}
+
 	@PostMapping(value = "/register")
 	public void register(@RequestParam(required = true) String username,
 						 @RequestParam(required = true) String password, @RequestParam(required = true) String email,
