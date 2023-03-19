@@ -2,6 +2,7 @@ package com.ftn.Pharmacy.Project.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ftn.Pharmacy.Project.dao.MedicineDao;
+import com.ftn.Pharmacy.Project.dao.impl.BuyReportDAO;
 import com.ftn.Pharmacy.Project.dao.impl.OrderDAO;
 import com.ftn.Pharmacy.Project.model.*;
 import com.ftn.Pharmacy.Project.service.IMedicineCategoryService;
@@ -55,6 +56,9 @@ public class MedicineController  implements ServletContextAware {
     private LocaleResolver localeResolver;
     @Autowired
     private ServletContext servletContext;
+    @Autowired
+    private BuyReportDAO reportDAO;
+
 
     private String bURL;
     @Autowired
@@ -245,12 +249,22 @@ public class MedicineController  implements ServletContextAware {
                    return "false";
                }
             }
+
+            Map<Medicine, Map<Integer, Integer>> mapa = new LinkedHashMap<>();
             for(String a : map.keySet())
             {
                 Medicine lek =  medicineService.findOne(Long.valueOf(a));
                 lek.setNumberofItems(lek.getNumberofItems()- meds.get(Long.valueOf(a)));
                 medicineService.update(lek);
+                Map<Integer, Integer> mapa2 = new LinkedHashMap<>();
+                mapa2.put(meds.get(Long.valueOf(a)),lek.getPrice());
+                mapa.put(lek,mapa2);
             }
+
+
+
+            Report pera = new Report(loggedUser,LocalDate.now(),mapa);
+            reportDAO.save(pera);
             return "true";
 
 

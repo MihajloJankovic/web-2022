@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -32,6 +33,36 @@
 
 
     <tr><th></th><td><input type="submit" th:value="#{general.text.save}"/></td></tr>
+  </table>
+</form>
+
+<form onsubmit="return false;">
+  <table id="tablee" class="forma" th:each="itrep, status: ${rep}">
+    <caption th:text="#{Buy.cap}" ></caption>
+
+    <tr>
+      <td><input type="text"  readonly th:value="${itrep.getDate().toString()}"  name="num"/></td>
+      <td th:text="#{buy.Med}"></td>
+      <td th:text="#{buy.Num}"></td>
+      <td th:text="#{buy.pr}"></td>
+    </tr>
+    <tr th:each="mapaa : ${itrep.getMapa().keySet()}">
+
+      <td></td>
+      <td><input type="text"  readonly th:value="${mapaa.getName()}"  name="num"/></td>
+      <div th:each="mape : ${itrep.getMapa().get(mapaa).keySet()}">
+        <td>  <input type="number"  readonly required  th:value="${mape}" name="num"/></td>
+        <td><input type="number"  readonly required  th:value="${itrep.getMapa().get(mapaa).get(mape)}" name="num"/></td>
+      </div>
+
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
   </table>
 </form>
 

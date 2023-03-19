@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
+import com.ftn.Pharmacy.Project.dao.impl.BuyReportDAO;
 import com.ftn.Pharmacy.Project.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -41,6 +42,9 @@ public class UserController implements ServletContextAware {
 
 	@Autowired
 	private LocaleResolver localeResolver;
+	@Autowired
+	private BuyReportDAO buydao;
+
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -147,10 +151,12 @@ public class UserController implements ServletContextAware {
 
 		}
 
+		List<Report> reps =	buydao.getBuysbyUser(loggedUser.getUserID());
 		User users = userService.findOne(loggedUser.getUserID());
 		ModelAndView result1 = new ModelAndView("MyProfile");
 		result1.addObject("User", users);
 		result1.addObject("user",loggedUser);
+		result1.addObject("rep",reps);
 
 
 		return result1;
@@ -158,6 +164,7 @@ public class UserController implements ServletContextAware {
 
 
 	}
+
 	@PostMapping(value = "/edit")
 	public void edit(HttpServletRequest request,HttpServletResponse response,@RequestParam(required = true) String id,@RequestParam(required = true) String username,
 						 @RequestParam(required = true) String pass, @RequestParam(required = true) String email,
