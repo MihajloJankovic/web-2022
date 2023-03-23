@@ -22,6 +22,7 @@
 		<li><a href="users/homepage" th:text="#{general.text.users}"></a></li>
 		<li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
 		<li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+		<li><a href="Medicine/adminorder" th:text="#{Orderss}"></a></li>
 	</ul>
 </div>
 <div th:if="${log?.getName() != null and log.getRole().toString() =='CUSTOMER'}">
@@ -46,6 +47,8 @@
 		<li><a href="Medicine/orderfar" th:text="#{order}"></a></li>
 		<li><a href="MedicineCategories" th:text="#{general.text.medcats}"></a></li>
 		<li><a href="Medicine" th:text="#{general.text.meds}"></a></li>
+		<li><a href="orderfar" th:text="#{myaa}"></a></li>
+
 	</ul>
 </div>
 
