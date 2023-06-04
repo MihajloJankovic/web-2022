@@ -106,6 +106,7 @@ function sortTable2(n) {
         }
     }
 }
+
 const mapa = new Map();
 function Savee()
 {
